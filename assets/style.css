@@ -285,5 +285,5 @@ footer{background:#1d1e21;padding:64px 0 0}
 .lang-sw a{color:var(--texto-claro);font-size:11px;font-weight:700;letter-spacing:.08em;padding:8px 10px;transition:all .2s}
 .lang-sw a:hover{color:var(--dourado)}
 .lang-sw a.active{background:var(--dourado);color:var(--grafite-escuro)}
-@media(max-width:600px){.adv-card{grid-template-columns:1fr}.adv-card .adv-photo{aspect-ratio:4/3;min-height:0}.adv-card .adv-photo img{object-position:center 18%}}
+@media(max-width:600px){.adv-card{grid-template-columns:1fr}.adv-card .adv-photo{aspect-ratio:auto;min-height:0}.adv-card .adv-photo img{height:auto;object-fit:contain}}
 @media(max-width:600px){.lang-sw a{padding:7px 7px;font-size:10px}.logo-text span{display:none}.nav-cta{display:none}.logo-text strong{white-space:normal;max-width:130px;letter-spacing:.08em;line-height:1.25}}
