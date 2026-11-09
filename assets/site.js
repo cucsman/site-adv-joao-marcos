@@ -24,13 +24,11 @@
   function onScroll() { hd.classList.toggle('scrolled', window.scrollY > 24); }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!window.gsap || !window.ScrollTrigger) { root.classList.add('static'); return; }
   // se o fallback de 3s já marcou .static (rede lenta), volta a animar
   root.classList.remove('static');
   root.classList.add('motion');
-  // "Reduzir movimento" ligado no aparelho: layout fixo, só os textos surgindo (sem zoom, sem telas presas)
-  if (reduce) root.classList.add('static');
+  // decisão do cliente: animações completas mesmo com "Reduzir movimento" ligado no aparelho
   gsap.registerPlugin(ScrollTrigger);
   // celular: a barra do navegador some/aparece ao rolar; não recalcular por isso (evita saltos no iOS/Android)
   ScrollTrigger.config({ ignoreMobileResize: true });
@@ -42,7 +40,7 @@
 
   // rolagem suave (só mouse/trackpad; no toque fica o nativo)
   var lenis = null;
-  if (!reduce && window.Lenis && !window.matchMedia('(pointer: coarse)').matches) {
+  if (window.Lenis && !window.matchMedia('(pointer: coarse)').matches) {
     lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
     window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
@@ -72,7 +70,7 @@
 
   // texto e blocos surgem ao entrar na tela
   gsap.utils.toArray('[data-r]').forEach(function (el) {
-    gsap.fromTo(el, { opacity: 0, y: reduce ? 0 : 36 }, { opacity: 1, y: 0, duration: 1.1, ease: ease,
+    gsap.fromTo(el, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 1.1, ease: ease,
       scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
   });
 
@@ -97,14 +95,12 @@
   });
 
   // fotos que se revelam de baixo para cima
-  if (!reduce) gsap.utils.toArray('[data-curtain]').forEach(function (f) {
+  gsap.utils.toArray('[data-curtain]').forEach(function (f) {
     var img = f.querySelector('img');
     var tl = gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 85%', once: true } });
     tl.fromTo(f, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'expo.out' })
       .fromTo(img, { scale: 1.25 }, { scale: 1, duration: 2, ease: 'expo.out' }, 0);
   });
-
-  if (reduce) { window.addEventListener('load', function () { ScrollTrigger.refresh(); }); return; }
 
   var mm = gsap.matchMedia();
 
