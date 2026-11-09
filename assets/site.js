@@ -37,13 +37,25 @@
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
     gsap.ticker.lagSmoothing(0);
-    d.querySelectorAll('a[href^="#"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var el = d.querySelector(a.getAttribute('href'));
-        if (el) { e.preventDefault(); lenis.scrollTo(el); }
-      });
-    });
   }
+
+  // âncoras da mesma página (#contato, /pt/index.html#contato em /pt): rola sem recarregar
+  var norm = function (p) { return p.replace(/(\/index)?(\.html)?\/?$/, ''); };
+  var goTo = function (el) {
+    if (lenis) lenis.scrollTo(el);
+    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
+  };
+  d.querySelectorAll('a[href*="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (!a.hash || norm(a.pathname) !== norm(location.pathname)) return;
+      var el = d.getElementById(a.hash.slice(1));
+      if (!el) return;
+      e.preventDefault();
+      root.classList.remove('menu-open'); if (burger) burger.setAttribute('aria-expanded', false);
+      if (lenis) lenis.start();
+      goTo(el);
+    });
+  });
 
   var ease = 'power3.out';
 
@@ -151,5 +163,16 @@
       scrollTrigger: { trigger: sec, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 1, invalidateOnRefresh: true } });
   });
 
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  // vindo de outra página com #âncora: a animação do topo muda a altura, então reposiciona depois de medir
+  window.addEventListener('load', function () {
+    ScrollTrigger.refresh();
+    var el = location.hash && d.getElementById(location.hash.slice(1));
+    if (el) {
+      requestAnimationFrame(function () {
+        var y = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo(0, y);
+        if (lenis) { lenis.resize(); lenis.scrollTo(y, { immediate: true, force: true }); }
+      });
+    }
+  });
 })();
