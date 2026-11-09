@@ -440,8 +440,8 @@ def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
     return '<section class="phero solo"><div class="wrap narrow center">' + tx + '</div></section>\n'
 
 
-TILES = [('cid', 'joao-perfil.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'equipe-leonardo.jpg'),
-         ('blinds', 'joao-vitrine.jpg'), ('gab', 'equipe-gabriel.jpg'), ('wil', 'equipe-willian.jpg')]
+TILES = [('cid', 'joao-perfil.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'escritorio-recepcao.jpg'),
+         ('blinds', 'joao-vitrine.jpg'), ('gab', 'escritorio-reuniao.jpg'), ('wil', 'escritorio-sala.jpg')]
 
 
 def body_index(t):
