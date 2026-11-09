@@ -375,7 +375,7 @@ def footer(t):
             '<p><strong>João Marcos A. Batista</strong><br>' + t['logo_tag'] + '<br>OAB/SP 454.179 · CNPJ 44.546.186/0001-54</p></div>'
             '<div><h5>' + t['ft_nav'] + '</h5><ul>' + links + '</ul></div>'
             '<div><h5>' + t['ft_contact'] + '</h5><ul>'
-            '<li>' + ext(WA, '(11) 98621-3553') + '</li>'
+            '<li>' + ext(WA, '+55 (11) 98621-3553') + '</li>'
             '<li><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></li>'
             '<li>' + ext('https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo', 'Rua Enxovia, 472 — Brooklin, SP') + '</li>'
             '<li>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '</li></ul></div>'
@@ -498,7 +498,7 @@ def body_index(t):
         # 10. contato
         '<section class="sec dark contact" id="contato"><div class="wrap">' + eyebrow(t['ct_eyebrow']) +
         '<h2 class="d1" data-words>' + t['ct_h2'] + '</h2>'
-        '<div data-r>' + ext(wa(t['wa_default']), WA_ICON + '<span>(11) 98621-3553</span><small>' + t['wa_btn'] + '</small>', 'ct-wa') + '</div>'
+        '<div data-r>' + ext(wa(t['wa_default']), WA_ICON + '<span>+55 (11) 98621-3553</span><small>' + t['wa_btn'] + '</small>', 'ct-wa') + '</div>'
         '<div class="ct-grid">'
         '<div data-r><h3 class="mini">' + t['ct_email'] + '</h3><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></div>'
         '<div data-r><h3 class="mini">' + t['ct_addr'] + '</h3><p>Neo Corporate Offices<br>Rua Enxovia, 472 — conj. 1504 e 1505<br>Brooklin, São Paulo/SP · 04711-030</p>'
