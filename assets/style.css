@@ -159,6 +159,7 @@ p+p{margin-top:16px}
 .panel:nth-child(2){background:var(--g)}
 .panel{--pbg:var(--g2)}
 .panel:nth-child(2){--pbg:var(--g)}
+.panel:not(:last-child){margin-bottom:30vh}
 .panel-in{position:relative;height:100%;display:flex;align-items:center;transform-origin:50% 0}
 .panel-ph{position:absolute;top:0;right:0;bottom:0;width:62%;margin:0;overflow:hidden}
 .panel-ph::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--pbg) 0%,transparent 45%)}
@@ -172,7 +173,8 @@ p+p{margin-top:16px}
   .panel-ph{width:100%}
   .panel-ph::after{background:linear-gradient(0deg,var(--pbg) 0%,rgba(28,29,32,.72) 36%,rgba(28,29,32,0) 64%),linear-gradient(180deg,rgba(28,29,32,.5) 0%,rgba(28,29,32,0) 18%)}
   .panel-ph img{object-position:center 12%}
-  .panel-tx{width:100%;margin:0;padding:0 var(--pad) 44px}
+  .panel-tx{width:100%;margin:0;padding:0 var(--pad) calc(48px + 9svh)}
+  .panel:not(:last-child){margin-bottom:45svh}
   .panel .num{margin-bottom:10px}
   .panel .lead{margin-top:14px;font-size:16px;line-height:1.55}
   .panel .link{margin-top:16px}
