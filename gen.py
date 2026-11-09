@@ -17,7 +17,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'lang':'pt','html_lang':'pt-BR',
 'nav':[('criminal.html','Criminal'),('tributario.html','Tributário'),('internacional.html','Internacional'),('equipe.html','Equipe'),('noticias.html','Notícias'),('index.html#contato','Contato')],
 'wa_default':'Ol%C3%A1%2C%20preciso%20falar%20com%20um%20advogado.','wa_urgente':'Urgente%3A%20preciso%20de%20um%20advogado%20criminal%20agora.','wa_empresa':'Ol%C3%A1%2C%20preciso%20falar%20sobre%20o%20caso%20da%20minha%20empresa.','wa_trib':'Ol%C3%A1%2C%20quero%20agendar%20uma%20an%C3%A1lise%20tribut%C3%A1ria.','wa_intl':'Hello%2C%20I%20need%20a%20criminal%20lawyer%20in%20Brazil.','wa_equipe':'Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20a%20equipe.','wa_imprensa':'Ol%C3%A1%2C%20sou%20da%20imprensa.',
-'wa_btn':'WhatsApp 24h','wa_bar':'Plantão 24h — Falar agora','logo_tag':'Advocacia e Consultoria',
+'wa_btn':'WhatsApp 24h','logo_tag':'Advocacia e Consultoria',
 'ft_nav':'Navegação','ft_contact':'Contato','ft_links':[('criminal.html','Advocacia Criminal'),('tributario.html','Advocacia Tributária'),('internacional.html','Internacional'),('equipe.html','Equipe'),('noticias.html','Notícias'),('index.html#contato','Contato')],
 'ft_legal':'Conteúdo meramente informativo, em conformidade com o Provimento 205/2021 da OAB. Este site não constitui promessa de resultado.','ft_rights':'Todos os direitos reservados.',
 # index
@@ -104,7 +104,7 @@ E.update({
 'lang':'en','html_lang':'en',
 'nav':[('criminal.html','Criminal'),('tributario.html','Tax'),('internacional.html','International'),('equipe.html','Team'),('noticias.html','News'),('index.html#contato','Contact')],
 'wa_default':'Hello%2C%20I%20need%20to%20speak%20with%20a%20lawyer.','wa_urgente':'Urgent%3A%20I%20need%20a%20criminal%20lawyer%20in%20Brazil%20now.','wa_empresa':'Hello%2C%20I%20need%20to%20discuss%20my%20company%27s%20case.','wa_trib':'Hello%2C%20I%20would%20like%20a%20tax%20assessment%20review.','wa_intl':'Hello%2C%20I%20need%20a%20criminal%20lawyer%20in%20Brazil.','wa_equipe':'Hello%2C%20I%20would%20like%20to%20speak%20with%20the%20team.','wa_imprensa':'Hello%2C%20press%20inquiry.',
-'wa_btn':'WhatsApp 24/7','wa_bar':'24/7 line — Talk now','logo_tag':'Attorneys at Law',
+'wa_btn':'WhatsApp 24/7','logo_tag':'Attorneys at Law',
 'ft_nav':'Navigation','ft_contact':'Contact','ft_links':[('criminal.html','Criminal Defense'),('tributario.html','Tax Law'),('internacional.html','International'),('equipe.html','Team'),('noticias.html','News'),('index.html#contato','Contact')],
 'ft_legal':'Informational content only, in accordance with Brazilian Bar Association (OAB) Rule 205/2021. This website is not a promise of results.','ft_rights':'All rights reserved.',
 'ix_title':'Criminal & Tax Lawyer in São Paulo, Brazil | João Marcos A. Batista — 24/7','ix_desc':'High-stakes criminal and tax defense in Brazil. From arrest to the Superior Courts. U.S. Embassy attorney list. English and Spanish spoken. 24/7.',
@@ -184,7 +184,7 @@ S.update({
 'lang':'es','html_lang':'es',
 'nav':[('criminal.html','Penal'),('tributario.html','Tributario'),('internacional.html','Internacional'),('equipe.html','Equipo'),('noticias.html','Noticias'),('index.html#contato','Contacto')],
 'wa_default':'Hola%2C%20necesito%20hablar%20con%20un%20abogado.','wa_urgente':'Urgente%3A%20necesito%20un%20abogado%20penalista%20en%20Brasil%20ahora.','wa_empresa':'Hola%2C%20necesito%20hablar%20sobre%20el%20caso%20de%20mi%20empresa.','wa_trib':'Hola%2C%20quiero%20agendar%20un%20an%C3%A1lisis%20tributario.','wa_intl':'Hola%2C%20necesito%20un%20abogado%20penalista%20en%20Brasil.','wa_equipe':'Hola%2C%20quisiera%20hablar%20con%20el%20equipo.','wa_imprensa':'Hola%2C%20soy%20de%20la%20prensa.',
-'wa_btn':'WhatsApp 24h','wa_bar':'Guardia 24h — Hablar ahora','logo_tag':'Abogados',
+'wa_btn':'WhatsApp 24h','logo_tag':'Abogados',
 'ft_nav':'Navegación','ft_contact':'Contacto','ft_links':[('criminal.html','Derecho Penal'),('tributario.html','Derecho Tributario'),('internacional.html','Internacional'),('equipe.html','Equipo'),('noticias.html','Noticias'),('index.html#contato','Contacto')],
 'ft_legal':'Contenido meramente informativo, conforme a la norma 205/2021 del Colegio de Abogados de Brasil (OAB). Este sitio no constituye promesa de resultado.','ft_rights':'Todos los derechos reservados.',
 'ix_title':'Abogado Penalista y Tributarista en São Paulo, Brasil | João Marcos A. Batista — 24h','ix_desc':'Defensa penal y tributaria de alta complejidad en Brasil. De la detención a los Tribunales Superiores. Lista de abogados de la Embajada de EE.UU. Atención en español. 24h.',
@@ -354,11 +354,14 @@ def head(t, title, desc, fname, schema=False):
 
 
 def header(t, active, fname):
-    links = ''.join('<li><a href="%s"%s>%s</a></li>' % (h, ' class="active"' if h == active else '', lb) for h, lb in t['nav'])
+    links = ''.join('<li style="--i:%d"><a href="%s"%s><img src="../assets/menu/m-%s.jpg" alt="" loading="lazy">%s</a></li>'
+                    % (i, h, ' class="active"' if h == active else '', h.split('.')[0].replace('index', 'contato'), lb)
+                    for i, (h, lb) in enumerate(t['nav']))
     sw = ''.join('<a href="../%s/%s"%s data-setlang="%s">%s</a>' % (lg, fname, ' class="active"' if lg == t['lang'] else '', lg, LANG_NAMES[lg]) for lg in LANGS)
     return ('<header class="hd"><div class="hd-in">'
             '<a href="index.html" class="brand"><img src="../assets/monograma.png" alt=""><span>João Marcos A. Batista</span></a>'
-            '<nav class="nav" id="nav"><ul>' + links + '</ul><div class="lang">' + sw + '</div></nav>'
+            '<nav class="nav" id="nav"><ul>' + links + '</ul><div class="lang" style="--i:%d">' % len(t['nav']) + sw + '</div>'
+            + ext(wa(t['wa_default']), WA_ICON + '<span>' + t['wa_btn'] + '</span>', 'btn btn-gold nav-cta') + '</nav>'
             + ext(wa(t['wa_default']), WA_ICON + '<span>' + t['wa_btn'] + '</span>', 'hd-wa') +
             '<button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>'
             '</div></header>\n<main>\n')
@@ -377,10 +380,6 @@ def footer(t):
             '<li>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '</li></ul></div>'
             '</div><div class="ft-bottom"><p>© 2026 João Marcos A. Batista. ' + t['ft_rights'] + '<br>' + t['ft_legal'] + '</p>'
             + ext('https://seryalab.com.br/advocacia', 'Site por Serya Lab', 'credit') + '</div></div></footer>\n')
-
-
-def floats(t):
-    return ext(wa(t['wa_default']), WA_ICON + ' ' + t['wa_bar'], 'wa-bar') + '\n'
 
 
 def eyebrow(s):
@@ -440,8 +439,8 @@ def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
     return '<section class="phero solo"><div class="wrap narrow center">' + tx + '</div></section>\n'
 
 
-TILES = [('cid', 'joao-cidade.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'equipe-leonardo.jpg'),
-         ('blinds', 'joao-blinds.jpg'), ('gab', 'equipe-gabriel.jpg'), ('wil', 'equipe-willian.jpg')]
+TILES = [('cid', 'joao-perfil.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'equipe-leonardo.jpg'),
+         ('blinds', 'joao-vitrine.jpg'), ('gab', 'equipe-gabriel.jpg'), ('wil', 'equipe-willian.jpg')]
 
 
 def body_index(t):
@@ -449,8 +448,8 @@ def body_index(t):
     tiles = ''.join('<figure class="tile t-%s"><img src="../assets/%s" alt="" loading="lazy"></figure>' % tl for tl in TILES)
     creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
     panels = ''
-    for i, (k, img, href) in enumerate([('crim', 'joao-colete.jpg', 'criminal.html'), ('trib', 'joao-blinds.jpg', 'tributario.html'), ('intl', 'joao-cidade.jpg', 'internacional.html')]):
-        panels += ('<article class="panel"><div class="panel-in wrap">'
+    for i, (k, img, href) in enumerate([('crim', 'joao-bracos.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'joao-cidade.jpg', 'internacional.html')]):
+        panels += ('<article class="panel"><div class="panel-in">'
                    '<figure class="panel-ph"><img src="../assets/' + img + '" alt="' + t['ar_%s_h' % k] + '" loading="lazy"></figure>'
                    '<div class="panel-tx"><span class="num">0' + str(i + 1) + '</span><h3 class="d2">' + t['ar_%s_h' % k] + '</h3>'
                    '<p class="lead">' + t['ar_%s_p' % k] + '</p><a class="link" href="' + href + '">' + t['ar_%s_a' % k] + '</a></div>'
@@ -458,18 +457,18 @@ def body_index(t):
     news = ''.join(news_card(t, lg, n) for n in NEWS)
     team = [('joao-sobre.jpg', 'João Marcos A. Batista', t['eq_role']), ('equipe-leonardo.jpg', 'Leonardo Almeida Santos', t['eq_o_role']),
             ('equipe-willian.jpg', 'Willian Moura Rodrigues', t['eq_w_role']), ('equipe-gabriel.jpg', 'Gabriel Mantovani', t['eq_g_role'])]
-    people = ''.join('<a class="pp" href="equipe.html" data-r><figure><img src="../assets/%s" alt="%s" loading="lazy"></figure><b>%s</b><span>%s</span></a>' % (f, n, n, r) for f, n, r in team)
+    people = ''.join('<a class="pp" href="equipe.html" data-r><figure><img src="../assets/%s" alt="%s" loading="lazy"><figcaption><b>%s</b><span>%s</span></figcaption></figure></a>' % (f, n, n, r) for f, n, r in team)
     return (
         # 1. hero → mosaico (efeito principal)
         '<section class="stage" id="inicio"><div class="stage-in">'
-        '<div class="stage-copy"><p class="eyebrow">' + t['hero_eyebrow'] + '</p>'
+        '<div class="stage-copy"><div class="stage-lead"><p class="eyebrow">' + t['hero_eyebrow'] + '</p>'
         '<h1 class="d0">' + t['hero_h1'] + '</h1>'
-        '<div class="ctas">' + ext(wa(t['wa_urgente']), t['hero_cta1'], 'btn btn-gold') + '<a class="btn-text" href="#areas">' + t['hero_cta2'] + '</a></div>'
+        '<div class="ctas">' + ext(wa(t['wa_urgente']), t['hero_cta1'], 'btn btn-gold') + '<a class="btn-text" href="#areas">' + t['hero_cta2'] + '</a></div></div>'
         '<div class="stage-more"><p class="statement">' + t['st_h'] + '</p>'
         '<p class="badge"><span class="dot"></span>' + t['hero_badge'] + '</p></div>'
         '</div>'
         '<div class="mosaic"><div class="cell-hero"></div>' + tiles +
-        '<figure class="tile t-hero"><img src="../assets/hero-joao.jpg" alt="João Marcos A. Batista" fetchpriority="high"><span class="shade"></span></figure></div>'
+        '<figure class="tile t-hero"><div class="zw"><img src="../assets/joao-entrada.jpg" alt="João Marcos A. Batista" fetchpriority="high"></div><span class="shade"></span></figure></div>'
         '<div class="ph-start"></div>'
         '</div></section>\n'
         # 2. credenciais
@@ -482,7 +481,7 @@ def body_index(t):
         '<div class="stack">' + panels + '</div></section>\n'
         # 5. penal econômico
         + split(eyebrow(t['po_eyebrow']) + '<h2 class="d2" data-r>' + t['po_h2'] + '</h2><p data-r>' + t['po_p1'] + '</p><p data-r>' + t['po_p2'] + '</p>'
-                '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-dark') + '</div>', 'joao-atuacao.jpg', 'João Marcos A. Batista') +
+                '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-dark') + '</div>', 'joao-blinds.jpg', 'João Marcos A. Batista') +
         # 6. na mídia (rolagem horizontal)
         '<section class="hscroll off"><div class="wrap hs-head">' + eyebrow(t['nw_eyebrow']) +
         '<h2 class="d2" data-r>' + t['nw_h2'] + '</h2><p class="lead" data-r>' + t['nw_p'] + '</p></div>'
@@ -509,7 +508,7 @@ def body_index(t):
 
 
 def body_criminal(t):
-    return (page_hero(t['cr_eyebrow'], t['cr_h1'], t['cr_sub'], (wa(t['wa_urgente']), t['cr_cta']), 'joao-colete.jpg')
+    return (page_hero(t['cr_eyebrow'], t['cr_h1'], t['cr_sub'], (wa(t['wa_urgente']), t['cr_cta']), 'joao-bracos.jpg')
             + steps_block(t, t['cr_urg_h2'], t['cr_urg_p'])
             + rows_block(t['cr_sub_eyebrow'], t['cr_sub_h2'], t['cr_cards'])
             + timeline(t) + faq_block(t, t['cr_faq'])
@@ -517,7 +516,7 @@ def body_criminal(t):
 
 
 def body_tributario(t):
-    return (page_hero(t['tb_eyebrow'], t['tb_h1'], t['tb_sub'], (wa(t['wa_trib']), t['tb_cta']), 'joao-blinds.jpg')
+    return (page_hero(t['tb_eyebrow'], t['tb_h1'], t['tb_sub'], (wa(t['wa_trib']), t['tb_cta']), 'joao-mesa.jpg')
             + split(eyebrow(t['tb_why_eyebrow']) + '<h2 class="d2" data-r>' + t['tb_why_h2'] + '</h2><p data-r>' + t['tb_why_p1'] + '</p><p data-r>' + t['tb_why_p2'] + '</p>',
                     'joao-sobre.jpg', 'João Marcos A. Batista', rev=True)
             + rows_block(t['tb_sv_eyebrow'], t['tb_sv_h2'], t['tb_cards'])
@@ -614,7 +613,7 @@ if __name__ == '__main__':
         t['_lg'] = lg
         os.makedirs(os.path.join(OUT, lg), exist_ok=True)
         for fname, tk, dk, fn, schema in PAGES:
-            html = (head(t, t[tk], t[dk], fname, schema) + header(t, fname, fname) + fn(t) + footer(t) + floats(t)
+            html = (head(t, t[tk], t[dk], fname, schema) + header(t, fname, fname) + fn(t) + footer(t)
                     + '</body>\n</html>\n')
             open(os.path.join(OUT, lg, fname), 'w', encoding='utf-8').write(html)
             print(lg + '/' + fname, len(html) // 1024, 'KB')

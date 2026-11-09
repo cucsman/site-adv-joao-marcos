@@ -8,9 +8,13 @@
     burger.addEventListener('click', function () {
       var open = root.classList.toggle('menu-open');
       burger.setAttribute('aria-expanded', open);
+      if (window.__lenis) window.__lenis[open ? 'stop' : 'start']();
     });
     d.querySelectorAll('#nav a').forEach(function (a) {
-      a.addEventListener('click', function () { root.classList.remove('menu-open'); });
+      a.addEventListener('click', function () {
+        root.classList.remove('menu-open'); burger.setAttribute('aria-expanded', false);
+        if (window.__lenis) window.__lenis.start();
+      });
     });
   }
   d.querySelectorAll('[data-setlang]').forEach(function (a) {
@@ -29,6 +33,7 @@
   var lenis = null;
   if (window.Lenis && !window.matchMedia('(pointer: coarse)').matches) {
     lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+    window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
     gsap.ticker.lagSmoothing(0);
@@ -82,7 +87,7 @@
   var stage = d.querySelector('.stage');
   if (stage) {
     var inner = stage.querySelector('.stage-in'), hero = stage.querySelector('.t-hero'),
-        shade = hero.querySelector('.shade'), cell = stage.querySelector('.cell-hero'),
+        shade = hero.querySelector('.shade'), zw = hero.querySelector('.zw'), cell = stage.querySelector('.cell-hero'),
         start = stage.querySelector('.ph-start'), more = stage.querySelector('.stage-more'),
         tiles = stage.querySelectorAll('.mosaic .tile:not(.t-hero)');
     var rect = function (el) {
@@ -97,23 +102,30 @@
         { left: function () { return rect(cell).left; }, top: function () { return rect(cell).top; },
           width: function () { return rect(cell).width; }, height: function () { return rect(cell).height; }, borderRadius: 3,
           ease: 'power2.inOut', duration: 1 }, 0)
+        .fromTo(zw, { scale: 1.2 }, { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         .fromTo(shade, { opacity: 1 }, { opacity: 0, duration: 0.5 }, 0)
         .fromTo(tiles, { y: function (i) { return -window.innerHeight * (0.7 + (i % 3) * 0.15); }, opacity: 0 },
           { y: 0, opacity: 1, ease: 'power3.out', duration: 0.75, stagger: 0.07 }, 0.2)
         .fromTo(more, { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.45 }, 0.55);
-      return function () { gsap.set([hero, shade, tiles, more], { clearProps: 'all' }); };
+      return function () { gsap.set([hero, zw, shade, tiles, more], { clearProps: 'all' }); };
     });
     mm.add('(max-width: 899px)', function () {
       gsap.fromTo(tiles, { y: -70, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: ease, stagger: 0.12,
         scrollTrigger: { trigger: stage.querySelector('.mosaic'), start: 'top 80%', once: true } });
-      gsap.fromTo(hero.querySelector('img'), { scale: 1.15 }, { scale: 1, duration: 1.8, ease: 'expo.out' });
+      gsap.fromTo(hero.querySelector('img'), { scale: 1.3 }, { scale: 1, duration: 2.2, ease: 'expo.out' });
+      gsap.fromTo(stage.querySelector('.stage-lead'), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, delay: 0.25, ease: ease });
+      gsap.fromTo(zw, { scale: 1 }, { scale: 1.25, ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.fromTo(stage.querySelector('.stage-more'), { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 1.1, ease: ease,
+        scrollTrigger: { trigger: stage.querySelector('.stage-more'), start: 'top 90%', once: true } });
+      return function () { gsap.set([zw, hero.querySelector('img')], { clearProps: 'all' }); };
     });
   }
 
   // ÁREAS: painéis empilhados; o anterior recua quando o próximo sobe
   var panels = gsap.utils.toArray('.panel');
   panels.forEach(function (p, i) {
-    gsap.fromTo(p.querySelector('img'), { scale: 1.2 }, { scale: 1, ease: 'none',
+    gsap.fromTo(p.querySelector('img'), { scale: 1.45 }, { scale: 1, ease: 'none',
       scrollTrigger: { trigger: p, start: 'top bottom', end: 'top top', scrub: true } });
     gsap.fromTo(p.querySelector('.panel-tx'), { opacity: 0, y: 50 }, { opacity: 1, y: 0, ease: 'none',
       scrollTrigger: { trigger: p, start: 'top 75%', end: 'top 15%', scrub: true } });

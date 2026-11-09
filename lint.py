@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(HERE, '..', '..', '10-motor'))
 from gen_cliente import lint_provimento  # noqa: E402
 
 # Menções a plantão 24h / 24/7 aprovadas pelo cliente (commit aa96a59). Só esta regra é liberada, e só nestas chaves.
-LINT_ALLOW = {'wa_btn', 'wa_bar', 'ix_title', 'ix_desc', 'hero_badge', 'urg_cta', 'in_en', 'ct_f_micro',
+LINT_ALLOW = {'wa_btn', 'ix_title', 'ix_desc', 'hero_badge', 'urg_cta', 'in_en', 'ct_f_micro',
               'cr_title', 'cr_desc', 'cr_cta', 'cr_band_p', 'il_desc', 'il_how_box', 'il_band_p'}
 REGRA_24H = "'plantão/atendimento 24h'"
 
