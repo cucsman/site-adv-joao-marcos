@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Gera o site JMB trilíngue (v2): /pt /en /es + detector na raiz. Saída: a própria pasta do repositório."""
 import os
+import re
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 BASE = 'https://www.jmbadv.com.br'
@@ -615,6 +616,8 @@ if __name__ == '__main__':
         for fname, tk, dk, fn, schema in PAGES:
             html = (head(t, t[tk], t[dk], fname, schema) + header(t, fname, fname) + fn(t) + footer(t)
                     + '</body>\n</html>\n')
+            # links internos absolutos: em /pt (URL limpa da home) o link relativo cairia na raiz
+            html = re.sub(r'href="((?:index|criminal|tributario|internacional|equipe|noticias)\.html[^"]*)"', r'href="/' + lg + r'/\1"', html)
             open(os.path.join(OUT, lg, fname), 'w', encoding='utf-8').write(html)
             print(lg + '/' + fname, len(html) // 1024, 'KB')
     print('done')
