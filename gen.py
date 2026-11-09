@@ -473,7 +473,7 @@ def body_index(t):
         '<div class="ph-start"></div>'
         '</div></section>\n'
         # 2. credenciais
-        '<section class="creds"><div class="wrap creds-in">' + creds + '</div></section>\n'
+        '<section class="creds"><div class="wrap creds-in">' + creds + '<div class="cred cred-logo" data-r><img src="../assets/monograma.png" alt="João Marcos A. Batista"></div></div></section>\n'
         # 3. urgência
         + steps_block(t, t['urg_h2'], t['urg_p1'] + ' ' + t['urg_p2']) +
         # 4. áreas (painéis empilhados)
