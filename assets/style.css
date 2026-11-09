@@ -310,3 +310,5 @@ blockquote{margin-top:32px;padding-left:24px;border-left:1px solid var(--gold);f
 .js:not(.static) [data-r],.js:not(.static) .people .pp{opacity:0}
 .js:not(.static) [data-curtain]{clip-path:inset(0 0 0 0)}
 
+/* camadas próprias para as imagens com zoom (evita tremido/repaint no iOS) */
+.zw,.t-hero img,.panel-ph img{will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden}

@@ -32,6 +32,13 @@
   // "Reduzir movimento" ligado no aparelho: layout fixo, só os textos surgindo (sem zoom, sem telas presas)
   if (reduce) root.classList.add('static');
   gsap.registerPlugin(ScrollTrigger);
+  // celular: a barra do navegador some/aparece ao rolar; não recalcular por isso (evita saltos no iOS/Android)
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  var touch = window.matchMedia('(pointer: coarse)').matches;
+  var SCRUB = touch ? 0.5 : true; // no toque, suaviza o scroll por inércia
+  // fontes web e volta pelo histórico mudam a altura do texto: remedir
+  if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) ScrollTrigger.refresh(); });
 
   // rolagem suave (só mouse/trackpad; no toque fica o nativo)
   var lenis = null;
@@ -133,7 +140,7 @@
       gsap.fromTo(hero.querySelector('img'), { scale: 1.3 }, { scale: 1, duration: 2.2, ease: 'expo.out' });
       gsap.fromTo(stage.querySelector('.stage-lead'), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, delay: 0.25, ease: ease });
       gsap.fromTo(zw, { scale: 1 }, { scale: 1.25, ease: 'none', immediateRender: false,
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: SCRUB } });
       gsap.fromTo(stage.querySelector('.stage-more'), { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 1.1, ease: ease,
         scrollTrigger: { trigger: stage.querySelector('.stage-more'), start: 'top 90%', once: true } });
       return function () { gsap.set([zw, hero.querySelector('img')], { clearProps: 'all' }); };
@@ -151,12 +158,12 @@
   };
   panels.forEach(function (p, i) {
     gsap.fromTo(p.querySelector('img'), { scale: 1.45 }, { scale: 1, ease: 'none',
-      scrollTrigger: { trigger: stack, start: at(i, 'bottom'), end: at(i, 'top'), scrub: true, invalidateOnRefresh: true } });
+      scrollTrigger: { trigger: stack, start: at(i, 'bottom'), end: at(i, 'top'), scrub: SCRUB, invalidateOnRefresh: true } });
     gsap.fromTo(p.querySelector('.panel-tx'), { opacity: 0, y: 50 }, { opacity: 1, y: 0, ease: 'none',
       scrollTrigger: { trigger: stack, start: at(i, '75%'), end: at(i, '15%'), scrub: true, invalidateOnRefresh: true } });
     if (i < panels.length - 1) {
       gsap.to(p.querySelector('.panel-in'), { scale: 0.9, opacity: 0.3, ease: 'none',
-        scrollTrigger: { trigger: stack, start: at(i + 1, 'bottom'), end: at(i + 1, 'top'), scrub: true, invalidateOnRefresh: true } });
+        scrollTrigger: { trigger: stack, start: at(i + 1, 'bottom'), end: at(i + 1, 'top'), scrub: SCRUB, invalidateOnRefresh: true } });
     }
   });
 
