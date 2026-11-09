@@ -36,7 +36,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'ar_eyebrow':'Áreas de atuação','ar_h2':'Dois pilares, uma mesma estratégia','ar_p':'Advocacia criminal e tributária com profundidade técnica — e domínio da interseção entre as duas.',
 'ar_crim_h':'Advocacia Criminal','ar_crim_p':'Defesa em todas as fases — do inquérito e do flagrante aos recursos nos Tribunais Superiores, incluindo Tribunal do Júri e crimes econômicos.','ar_crim_a':'Ver atuação criminal →',
 'ar_trib_h':'Advocacia Tributária','ar_trib_p':'Planejamento tributário, recuperação de créditos, parcelamentos estratégicos e contencioso administrativo e judicial — inclusive no CARF.','ar_trib_a':'Ver atuação tributária →',
-'ar_intl_h':'Clientes Internacionais','ar_intl_p':'Defesa criminal de estrangeiros no Brasil, com atendimento em inglês e espanhol. Escritório integrante da lista de advogados da Embaixada dos EUA.','ar_intl_a':'International clients →',
+'ar_intl_h':'Clientes Internacionais','ar_intl_p':'Defesa criminal de estrangeiros no Brasil, com atendimento em inglês e espanhol. Escritório integrante da lista de advogados da Embaixada dos EUA.','ar_intl_a':'Ver atuação internacional →',
 'po_eyebrow':'Direito Penal Econômico','po_h2':'Quando o problema fiscal vira processo criminal',
 'po_p1':'Autuações e execuções fiscais podem evoluir para acusações de crime contra a ordem tributária, lavagem de dinheiro e crimes contra o sistema financeiro. São poucas as bancas preparadas para atuar nos dois tabuleiros ao mesmo tempo.',
 'po_p2':'É exatamente nessa interseção que o escritório concentra sua especialização: pós-graduação em Direito Penal Econômico pela FGV/SP, formação em Finanças pela PUC/RS e atuação simultânea no contencioso tributário e na defesa penal empresarial.',

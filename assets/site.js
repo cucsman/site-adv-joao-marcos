@@ -123,15 +123,22 @@
   }
 
   // ÁREAS: painéis empilhados; o anterior recua quando o próximo sobe
-  var panels = gsap.utils.toArray('.panel');
+  // (gatilhos medidos no .stack, que não é sticky: medir o próprio painel preso dá posição errada)
+  var stack = d.querySelector('.stack'), panels = gsap.utils.toArray('.panel');
+  var at = function (i, pos) {
+    return function () {
+      var p = panels[0], step = p.offsetHeight + parseFloat(getComputedStyle(p).marginBottom);
+      return 'top+=' + Math.round(i * step) + ' ' + pos;
+    };
+  };
   panels.forEach(function (p, i) {
     gsap.fromTo(p.querySelector('img'), { scale: 1.45 }, { scale: 1, ease: 'none',
-      scrollTrigger: { trigger: p, start: 'top bottom', end: 'top top', scrub: true } });
+      scrollTrigger: { trigger: stack, start: at(i, 'bottom'), end: at(i, 'top'), scrub: true, invalidateOnRefresh: true } });
     gsap.fromTo(p.querySelector('.panel-tx'), { opacity: 0, y: 50 }, { opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: p, start: 'top 75%', end: 'top 15%', scrub: true } });
+      scrollTrigger: { trigger: stack, start: at(i, '75%'), end: at(i, '15%'), scrub: true, invalidateOnRefresh: true } });
     if (i < panels.length - 1) {
       gsap.to(p.querySelector('.panel-in'), { scale: 0.9, opacity: 0.3, ease: 'none',
-        scrollTrigger: { trigger: panels[i + 1], start: 'top bottom', end: 'top top', scrub: true } });
+        scrollTrigger: { trigger: stack, start: at(i + 1, 'bottom'), end: at(i + 1, 'top'), scrub: true, invalidateOnRefresh: true } });
     }
   });
 
