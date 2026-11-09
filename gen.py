@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
-"""Gera o site JMB trilíngue: /pt /en /es + detector na raiz. Saída: /home/claude/site-v3"""
-import os, shutil
+"""Gera o site JMB trilíngue (v2): /pt /en /es + detector na raiz. Saída: a própria pasta do repositório."""
+import os
 
-OUT = '/home/claude/site-v3'
+OUT = os.path.dirname(os.path.abspath(__file__))
 BASE = 'https://www.jmbadv.com.br'
 WA = 'https://wa.me/5511986213553'
 WA_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><use href="#wa-path"/></svg>'
 WA_SYMBOL = '''<svg style="display:none" xmlns="http://www.w3.org/2000/svg"><symbol id="wa-path" viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 7c0 5.45-4.44 9.88-9.89 9.88m8.4-18.28A11.8 11.8 0 0 0 12.04 0C5.5 0 .16 5.33.16 11.89c0 2.1.55 4.14 1.59 5.94L.05 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.33 11.89-11.89 0-3.18-1.24-6.16-3.48-8.4"/></symbol></svg>'''
 
-SCRIPT_BASE = '''<script>
-document.getElementById('hamburger').addEventListener('click',function(){document.getElementById('navLinks').classList.toggle('open')});
-document.querySelectorAll('#navLinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navLinks').classList.remove('open')})});
-document.querySelectorAll('.faq-q').forEach(function(btn){btn.addEventListener('click',function(){var item=btn.parentElement;var answer=item.querySelector('.faq-a');var open=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null});if(!open){item.classList.add('open');answer.style.maxHeight=answer.scrollHeight+'px'}})});
-document.querySelectorAll('[data-setlang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('jmb-lang',a.getAttribute('data-setlang'))}catch(e){}})});
-</script>'''
-
-SCRIPT_FORM = '''<script>
-function enviarForm(e){e.preventDefault();var f=e.target;var msg=f.nome.value+' | '+f.assunto.value+'%0A'+encodeURIComponent(f.mensagem.value||'')+'%0A'+f.whatsapp.value;window.open('https://wa.me/5511986213553?text='+msg,'_blank');return false}
-</script>'''
+SCRIPTS = ('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>\n'
+           '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>\n'
+           '<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>\n'
+           '<script src="../assets/site.js" defer></script>\n')
 
 P = {  # ---------------- PORTUGUÊS ----------------
 'lang':'pt','html_lang':'pt-BR',
@@ -30,7 +24,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'ix_title':'Advogado Criminalista e Tributarista em São Paulo | João Marcos A. Batista — Plantão 24h',
 'ix_desc':'Defesa criminal e tributária de alta complexidade em São Paulo. Do flagrante aos Tribunais Superiores, da autuação fiscal ao CARF. Plantão 24h.',
 'hero_eyebrow':'Advocacia Criminal e Tributária — São Paulo','hero_h1':'Defesa <em>criminal e tributária</em> em casos de alta complexidade.',
-'hero_sub':'Do flagrante aos Tribunais Superiores. Da autuação fiscal ao CARF. Atuação desde 2014, com passagem pelo Ministério Público de São Paulo, pós-graduação em Direito Penal Econômico (FGV/SP) e escritório integrante da lista de advogados da Embaixada dos EUA no Brasil.',
+'st_h':'Do flagrante aos Tribunais Superiores. Da autuação fiscal ao CARF.',
 'hero_badge':'Plantão 24 horas para flagrantes e urgências','hero_cta1':'Falar com um advogado agora','hero_cta2':'Áreas de atuação',
 'creds':[('OAB/SP 454.179','Inscrição ativa'),('Ministério Público','Passagem pelo MP de São Paulo'),('FGV/SP · PUC/RS','Pós em Penal Econômico e Finanças'),('IBCCRIM · IDDD · IBPT','Institutos de referência criminal e tributária'),('Embaixada dos EUA','Lista de advogados no Brasil')],
 'urg_eyebrow':'Urgências criminais','urg_h2':'Prisão em flagrante?<br>As primeiras horas são decisivas.',
@@ -52,15 +46,11 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'in_p':'O escritório integra a lista de advogados da Embaixada e dos Consulados dos EUA no Brasil, com atuação em casos criminais envolvendo estrangeiros desde 2016 — em inglês, português e espanhol.',
 'in_en':"Arrested or under investigation in Brazil? Our firm is included in the U.S. Embassy's list of attorneys in Brazil. We speak English and Spanish.",'in_a':'International clients →',
 'nw_eyebrow':'Na mídia','nw_h2':'Notícias e reportagens','nw_p':'A atuação do escritório em casos de repercussão, registrada pela imprensa.','nw_read':'Ler matéria →','nw_all':'Ver todas as notícias →','nw_veiculo':'[Veículo]','nw_title':'[Título da reportagem sobre o caso]','nw_sum':'[Resumo em uma linha do que a matéria cobre.]',
-'rv_eyebrow':'Avaliações','rv_h2':'O que dizem nossos clientes','rv_rating':'5,0 no Google · avaliações verificadas',
-'rv1':'"Excelente atendimento desde o primeiro contato até a resolução do caso. Sempre muito solícito, tirando todas as dúvidas e nos deixando a par de tudo. Só tenho elogios e agradecimento."','rv1n':'Marta de Farias','rv1t':'',
-'rv2':'"Obrigado por dedicar todo o seu esforço e habilidade, e por priorizar o caso. Você estava sempre cuidando. Conheci um excelente advogado."','rv2n':'Gandy Arias','rv2t':'Cliente internacional — Bolívia',
-'rv3':'"Profissional dedicado e atencioso, sempre disponível para esclarecer dúvidas e acompanhar cada etapa do processo."','rv3n':'Avaliação no Google','rv3t':'[substituir por depoimento real do perfil]',
+'rv_eyebrow':'Avaliações','rv_h2':'Avaliações no Google','rv_rating':'5,0 no Google · avaliações verificadas',
 'rv_link':'Ver todas as avaliações no Google',
 'fq_eyebrow':'Dúvidas frequentes','fq_h2':'Perguntas frequentes',
 'faq_home':[('Meu familiar foi preso em flagrante. O que devo fazer primeiro?','Procure um advogado imediatamente e não incentive declarações sem defesa técnica presente. A audiência de custódia ocorre em até 24 horas e é o primeiro momento em que a liberdade pode ser discutida. Nosso plantão orienta a família desde o primeiro contato.'),('Minha empresa foi autuada pelo Fisco. O que fazer?','A autuação pode ser contestada administrativa e judicialmente — inclusive no CARF — e, em muitos casos, o passivo pode ser reduzido, parcelado ou compensado com créditos. O importante é agir dentro dos prazos de defesa. Em situações mais graves, a atuação conjunta com a defesa penal evita que a questão fiscal evolua para a esfera criminal.'),('O escritório atende fora de São Paulo?','Sim. A atuação é em todo o território nacional, incluindo Tribunais Superiores em Brasília. O atendimento inicial pode ser feito por videochamada ou WhatsApp.'),('Vocês atendem estrangeiros?','Sim. O escritório integra a lista de advogados da Embaixada dos EUA no Brasil e atende em inglês, português e espanhol, incluindo contato com familiares no exterior e representações consulares.'),('Como funciona a primeira consulta?','O caso é analisado com sigilo absoluto e o cliente recebe uma avaliação honesta dos riscos e das estratégias possíveis, com honorários definidos de forma transparente antes de qualquer contratação.')],
 'ct_eyebrow':'Contato','ct_h2':'Fale com o escritório','ct_email':'E-mail','ct_addr':'Endereço','ct_map':'Ver no mapa →','ct_redes':'Redes',
-'ct_f_nome':'Nome','ct_f_wa':'WhatsApp','ct_f_ass':'Assunto','ct_f_opts':['Criminal — urgência','Criminal','Tributário','Internacional / English','Outro'],'ct_f_msg':'Conte brevemente o seu caso (sigilo absoluto)','ct_f_lgpd':'Li e aceito a Política de Privacidade. Seus dados são tratados com sigilo, conforme a LGPD.','ct_f_btn':'Enviar mensagem','ct_f_micro':'Retornamos em até 1 hora em dias úteis. <b>Urgências: use o WhatsApp 24h.</b>',
 # criminal page
 'cr_title':'Advocacia Criminal em São Paulo — Plantão 24h | João Marcos A. Batista','cr_desc':'Defesa criminal em todas as fases: flagrante, audiência de custódia, Tribunal do Júri, Habeas Corpus e Revisão Criminal. Plantão 24 horas.',
 'cr_eyebrow':'Advocacia Criminal','cr_h1':'Defesa em <em>todas as fases</em> do processo penal.','cr_sub':'Do inquérito e da prisão em flagrante às sustentações no Tribunal do Júri e aos Habeas Corpus nos Tribunais Superiores — com estratégia definida caso a caso.','cr_cta':'Plantão 24h no WhatsApp',
@@ -119,7 +109,7 @@ E.update({
 'ft_legal':'Informational content only, in accordance with Brazilian Bar Association (OAB) Rule 205/2021. This website is not a promise of results.','ft_rights':'All rights reserved.',
 'ix_title':'Criminal & Tax Lawyer in São Paulo, Brazil | João Marcos A. Batista — 24/7','ix_desc':'High-stakes criminal and tax defense in Brazil. From arrest to the Superior Courts. U.S. Embassy attorney list. English and Spanish spoken. 24/7.',
 'hero_eyebrow':'Criminal & Tax Law — São Paulo, Brazil','hero_h1':'<em>Criminal and tax</em> defense for high-stakes cases.',
-'hero_sub':"From arrest to Brazil's Superior Courts. From tax assessments to the CARF tribunal. Practicing since 2014, with experience at the São Paulo Prosecutor's Office, a graduate degree in Economic Criminal Law (FGV/SP), and inclusion in the U.S. Embassy's list of attorneys in Brazil.",
+'st_h':"From arrest to Brazil's Superior Courts. From tax assessments to the CARF tribunal.",
 'hero_badge':'24/7 emergency line for arrests','hero_cta1':'Talk to a lawyer now','hero_cta2':'Practice areas',
 'creds':[('OAB/SP 454.179','Active bar registration'),("Prosecutor's Office",'Experience at the São Paulo MP'),('FGV/SP · PUC/RS','Graduate degrees in Criminal Law & Finance'),('IBCCRIM · IDDD · IBPT','Leading criminal and tax law institutes'),('U.S. Embassy','Attorney list in Brazil')],
 'urg_eyebrow':'Criminal emergencies','urg_h2':'Arrested in Brazil?<br>The first hours are decisive.',
@@ -141,15 +131,11 @@ E.update({
 'in_p':"The firm is included in the U.S. Embassy and Consulates' list of attorneys in Brazil, and has handled criminal cases involving foreign nationals since 2016 — in English, Portuguese and Spanish.",
 'in_en':'Arrested or under investigation in Brazil? We answer 24/7 and speak English and Spanish.','in_a':'International clients →',
 'nw_eyebrow':'In the press','nw_h2':'News and coverage','nw_p':"The firm's work in high-profile cases, as covered by the press.",'nw_read':'Read article →','nw_all':'All news →','nw_veiculo':'[Outlet]','nw_title':'[Headline of the story]','nw_sum':'[One line on the case and our role.]',
-'rv_eyebrow':'Reviews','rv_h2':'What our clients say','rv_rating':'5.0 on Google · verified reviews',
-'rv1':'"Excellent service from the first contact to the resolution of the case. Always available, answering every question and keeping us informed of everything."','rv1n':'Marta de Farias','rv1t':'',
-'rv2':'"Thank you for dedicating all your effort and skill, and for prioritizing the case. You were always taking care of us. I met an excellent lawyer."','rv2n':'Gandy Arias','rv2t':'International client — Bolivia',
-'rv3':'"A dedicated and attentive professional, always available to answer questions and follow every stage of the case."','rv3n':'Google review','rv3t':'[replace with a real review]',
+'rv_eyebrow':'Reviews','rv_h2':'Google reviews','rv_rating':'5.0 on Google · verified reviews',
 'rv_link':'See all reviews on Google',
 'fq_eyebrow':'FAQ','fq_h2':'Frequently asked questions',
 'faq_home':[('A family member was arrested in Brazil. What should I do first?','Contact a lawyer immediately and do not encourage any statement without defense counsel present. The custody hearing happens within 24 hours and is the first moment release can be argued. Our emergency line guides families from the first call.'),('My company received a tax assessment. What now?','The assessment can be challenged administratively — including before CARF — and in court. In many cases the liability can be reduced, paid in installments or offset with credits. Acting within the defense deadlines is essential.'),('Do you handle cases outside São Paulo?','Yes. We act nationwide, including before the Superior Courts in Brasília. Initial consultations can be held by video call or WhatsApp.'),('Do you work with foreign clients?',"Yes. The firm is included in the U.S. Embassy's attorney list in Brazil and works in English, Portuguese and Spanish, including liaison with families abroad and consular offices."),('How does the first consultation work?','Your case is reviewed in strict confidence and you receive an honest assessment of risks and possible strategies, with fees set transparently before any engagement.')],
 'ct_eyebrow':'Contact','ct_h2':'Contact the firm','ct_email':'E-mail','ct_addr':'Address','ct_map':'View on map →','ct_redes':'Social',
-'ct_f_nome':'Name','ct_f_wa':'WhatsApp / phone','ct_f_ass':'Subject','ct_f_opts':['Criminal — urgent','Criminal','Tax','International','Other'],'ct_f_msg':'Briefly describe your case (strictly confidential)','ct_f_lgpd':'I have read and accept the Privacy Policy. Your data is handled confidentially under Brazilian data protection law (LGPD).','ct_f_btn':'Send message','ct_f_micro':'We reply within 1 hour on business days. <b>Emergencies: use the 24/7 WhatsApp line.</b>',
 'cr_title':'Criminal Defense in Brazil — 24/7 | João Marcos A. Batista','cr_desc':'Criminal defense at every stage: arrest, custody hearing, jury trial, Habeas Corpus and post-conviction review. 24/7 emergency line.',
 'cr_eyebrow':'Criminal Defense','cr_h1':'Defense at <em>every stage</em> of the criminal case.','cr_sub':'From investigation and arrest to jury trials and Habeas Corpus before the Superior Courts — with a strategy built case by case.','cr_cta':'24/7 WhatsApp line',
 'cr_urg_h2':'The first 24 hours decide a lot','cr_urg_p':'After an arrest in flagrante, the custody hearing happens within 24 hours — that is where release is argued. We act from the police station on: guiding the family, following the paperwork, and defending at the hearing.',
@@ -203,7 +189,7 @@ S.update({
 'ft_legal':'Contenido meramente informativo, conforme a la norma 205/2021 del Colegio de Abogados de Brasil (OAB). Este sitio no constituye promesa de resultado.','ft_rights':'Todos los derechos reservados.',
 'ix_title':'Abogado Penalista y Tributarista en São Paulo, Brasil | João Marcos A. Batista — 24h','ix_desc':'Defensa penal y tributaria de alta complejidad en Brasil. De la detención a los Tribunales Superiores. Lista de abogados de la Embajada de EE.UU. Atención en español. 24h.',
 'hero_eyebrow':'Derecho Penal y Tributario — São Paulo, Brasil','hero_h1':'Defensa <em>penal y tributaria</em> en casos de alta complejidad.',
-'hero_sub':'De la detención en flagrancia a los Tribunales Superiores de Brasil. De la liquidación fiscal al tribunal CARF. En ejercicio desde 2014, con experiencia en la Fiscalía de São Paulo, posgrado en Derecho Penal Económico (FGV/SP) y despacho incluido en la lista de abogados de la Embajada de EE.UU. en Brasil.',
+'st_h':'De la detención en flagrancia a los Tribunales Superiores. De la liquidación fiscal al CARF.',
 'hero_badge':'Guardia 24 horas para detenciones y urgencias','hero_cta1':'Hablar con un abogado ahora','hero_cta2':'Áreas de práctica',
 'creds':[('OAB/SP 454.179','Colegiatura activa'),('Fiscalía','Experiencia en la Fiscalía de São Paulo'),('FGV/SP · PUC/RS','Posgrados en Penal Económico y Finanzas'),('IBCCRIM · IDDD · IBPT','Institutos de referencia penal y tributaria'),('Embajada de EE.UU.','Lista de abogados en Brasil')],
 'urg_eyebrow':'Urgencias penales','urg_h2':'¿Detenido en Brasil?<br>Las primeras horas son decisivas.',
@@ -225,15 +211,11 @@ S.update({
 'in_p':'El despacho integra la lista de abogados de la Embajada y los Consulados de EE.UU. en Brasil, con actuación en casos penales de extranjeros desde 2016 — en español, portugués e inglés.',
 'in_en':'¿Detenido o investigado en Brasil? Atendemos 24/7 y hablamos español e inglés.','in_a':'Clientes internacionales →',
 'nw_eyebrow':'En la prensa','nw_h2':'Noticias y reportajes','nw_p':'La actuación del despacho en casos de repercusión, registrada por la prensa.','nw_read':'Leer nota →','nw_all':'Todas las noticias →','nw_veiculo':'[Medio]','nw_title':'[Titular del reportaje]','nw_sum':'[Una línea sobre el caso y nuestro papel.]',
-'rv_eyebrow':'Reseñas','rv_h2':'Lo que dicen nuestros clientes','rv_rating':'5,0 en Google · reseñas verificadas',
-'rv1':'"Excelente atención desde el primer contacto hasta la resolución del caso. Siempre disponible, resolviendo todas las dudas y manteniéndonos informados de todo."','rv1n':'Marta de Farias','rv1t':'',
-'rv2':'"Gracias por dedicar todo su esfuerzo y habilidad, y por priorizar el caso. Siempre estaba cuidando de nosotros. Conocí a un excelente abogado."','rv2n':'Gandy Arias','rv2t':'Cliente internacional — Bolivia',
-'rv3':'"Profesional dedicado y atento, siempre disponible para aclarar dudas y acompañar cada etapa del proceso."','rv3n':'Reseña en Google','rv3t':'[reemplazar por reseña real]',
+'rv_eyebrow':'Reseñas','rv_h2':'Reseñas en Google','rv_rating':'5,0 en Google · reseñas verificadas',
 'rv_link':'Ver todas las reseñas en Google',
 'fq_eyebrow':'Preguntas frecuentes','fq_h2':'Preguntas frecuentes',
 'faq_home':[('Un familiar fue detenido en Brasil. ¿Qué hago primero?','Contacte a un abogado de inmediato y no permita declaraciones sin defensa presente. La audiencia de custodia ocurre dentro de las 24 horas y es el primer momento en que puede discutirse la libertad. Nuestra guardia orienta a la familia desde el primer contacto.'),('Mi empresa recibió una liquidación fiscal. ¿Qué hacer?','La liquidación puede impugnarse en vía administrativa — incluso ante el CARF — y judicial. En muchos casos el pasivo puede reducirse, fraccionarse o compensarse con créditos. Lo esencial es actuar dentro de los plazos de defensa.'),('¿Atienden fuera de São Paulo?','Sí. Actuamos en todo Brasil, incluidos los Tribunales Superiores en Brasilia. La primera consulta puede hacerse por videollamada o WhatsApp.'),('¿Atienden a extranjeros?','Sí. El despacho integra la lista de abogados de la Embajada de EE.UU. en Brasil y atiende en español, portugués e inglés, incluido el contacto con familiares en el exterior y oficinas consulares.'),('¿Cómo funciona la primera consulta?','El caso se analiza con absoluta confidencialidad y el cliente recibe una evaluación honesta de los riesgos y estrategias posibles, con honorarios definidos de forma transparente antes de cualquier contratación.')],
 'ct_eyebrow':'Contacto','ct_h2':'Hable con el despacho','ct_email':'E-mail','ct_addr':'Dirección','ct_map':'Ver en el mapa →','ct_redes':'Redes',
-'ct_f_nome':'Nombre','ct_f_wa':'WhatsApp / teléfono','ct_f_ass':'Asunto','ct_f_opts':['Penal — urgencia','Penal','Tributario','Internacional','Otro'],'ct_f_msg':'Cuente brevemente su caso (confidencialidad absoluta)','ct_f_lgpd':'He leído y acepto la Política de Privacidad. Sus datos se tratan con confidencialidad conforme a la ley brasileña de protección de datos (LGPD).','ct_f_btn':'Enviar mensaje','ct_f_micro':'Respondemos dentro de 1 hora en días hábiles. <b>Urgencias: use el WhatsApp 24h.</b>',
 'cr_title':'Defensa Penal en Brasil — 24h | João Marcos A. Batista','cr_desc':'Defensa penal en todas las etapas: detención, audiencia de custodia, jurado, Habeas Corpus y revisión criminal. Guardia 24 horas.',
 'cr_eyebrow':'Derecho Penal','cr_h1':'Defensa en <em>todas las etapas</em> del proceso penal.','cr_sub':'De la investigación y la detención en flagrancia a los alegatos ante el jurado y los Habeas Corpus ante los Tribunales Superiores — con estrategia definida caso a caso.','cr_cta':'Guardia 24h por WhatsApp',
 'cr_urg_h2':'Las primeras 24 horas deciden mucho','cr_urg_p':'En la detención en flagrancia, la audiencia de custodia ocurre dentro de las 24 horas — allí se discute la libertad. Actuamos desde la comisaría: orientación a la familia, seguimiento del registro y defensa inmediata en la audiencia.',
@@ -324,16 +306,33 @@ NEWS = [
 ]
 
 
+# =============================================================================
+# v2 — layout "estilo Apple": respiro, tipografia grande, fotos protagonistas,
+# animações de scroll (GSAP + ScrollTrigger + Lenis, em assets/site.js).
+# =============================================================================
+
+def wa(msg):
+    return WA + '?text=' + msg
+
+
+def ext(href, inner, cls=''):
+    c = ' class="%s"' % cls if cls else ''
+    return '<a%s href="%s" target="_blank" rel="noopener">%s</a>' % (c, href, inner)
+
+
 def news_card(t, lg, n):
     title, summ = n[lg]
     if n['thumb']:
-        thumb = '<a class="thumb" href="' + n['url'] + '" target="_blank" rel="noopener"><img src="../assets/' + n['thumb'] + '" alt="' + n['veiculo'] + '" loading="lazy"></a>'
+        ph = '<figure class="nc-ph"><img src="../assets/' + n['thumb'] + '" alt="' + n['veiculo'] + '" loading="lazy"></figure>'
     else:
-        thumb = '<a class="thumb thumb-alt" href="' + n['url'] + '" target="_blank" rel="noopener"><span>' + n['veiculo'].split(' · ')[0] + '</span></a>'
-    return ('<article class="news">' + thumb + '<div class="news-body"><div class="veiculo">' + n['veiculo'] + ' <span class="kind">' + t['nw_kind'][n['kind']] + '</span></div>'
-            '<h3><a href="' + n['url'] + '" target="_blank" rel="noopener">' + title + '</a></h3><p>' + summ + '</p>'
-            '<a class="more" href="' + n['url'] + '" target="_blank" rel="noopener">' + (t['nw_watch'] if n['kind'] in ('tv','doc') else t['nw_read']) + '</a></div></article>')
-LANG_NAMES = {'pt':'PT','en':'EN','es':'ES'}
+        ph = '<figure class="nc-ph nc-alt"><span>' + n['veiculo'].split(' · ')[0] + '</span></figure>'
+    more = t['nw_watch'] if n['kind'] in ('tv', 'doc') else t['nw_read']
+    return ('<a class="nc" href="' + n['url'] + '" target="_blank" rel="noopener">' + ph +
+            '<div class="nc-meta">' + n['veiculo'] + ' · ' + t['nw_kind'][n['kind']] + '</div>'
+            '<h3>' + title + '</h3><p>' + summ + '</p><span class="link">' + more + '</span></a>')
+
+
+LANG_NAMES = {'pt': 'PT', 'en': 'EN', 'es': 'ES'}
 
 
 def head(t, title, desc, fname, schema=False):
@@ -341,216 +340,234 @@ def head(t, title, desc, fname, schema=False):
     alts += '<link rel="alternate" hreflang="x-default" href="%s/en/%s">' % (BASE, fname)
     sch = ''
     if schema:
-        sch = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","name":"João Marcos A. Batista — Advocacia e Consultoria","url":"' + BASE + '","telephone":"+5511986213553","email":"joao@jmbadv.com.br","address":{"@type":"PostalAddress","streetAddress":"Rua Enxovia, 472, conj. 1504 e 1505 — Neo Corporate Offices, Brooklin","addressLocality":"São Paulo","addressRegion":"SP","postalCode":"04711-030","addressCountry":"BR"},"openingHours":"Mo-Su 00:00-24:00","founder":{"@type":"Person","name":"João Marcos A. Batista","jobTitle":"Advogado — OAB/SP 454.179"},"areaServed":"BR","knowsLanguage":["pt-BR","en","es"]}</script>')
+        sch = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","name":"João Marcos A. Batista — Advocacia e Consultoria","url":"' + BASE + '","telephone":"+5511986213553","email":"joao@jmbadv.com.br","address":{"@type":"PostalAddress","streetAddress":"Rua Enxovia, 472, conj. 1504 e 1505 — Neo Corporate Offices, Brooklin","addressLocality":"São Paulo","addressRegion":"SP","postalCode":"04711-030","addressCountry":"BR"},"openingHours":"Mo-Su 00:00-24:00","founder":{"@type":"Person","name":"João Marcos A. Batista","jobTitle":"Advogado — OAB/SP 454.179"},"areaServed":"BR","knowsLanguage":["pt-BR","en","es"]}</script>\n')
     return ('<!DOCTYPE html>\n<html lang="' + t['html_lang'] + '">\n<head>\n<meta charset="UTF-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
             '<title>' + title + '</title>\n<meta name="description" content="' + desc + '">\n' + alts + '\n'
+            '<meta name="theme-color" content="#232428">\n'
             '<link rel="icon" type="image/png" href="../assets/monograma.png">\n'
+            '<script>(function(r){r.classList.add("js");setTimeout(function(){if(!r.classList.contains("motion"))r.classList.add("static")},3000)})(document.documentElement)</script>\n'
             '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-            '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n'
-            '<link rel="stylesheet" href="../assets/style.css">\n' + sch + '</head>\n<body>\n' + WA_SYMBOL + '\n')
+            '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">\n'
+            '<link rel="stylesheet" href="../assets/style.css">\n' + sch + SCRIPTS + '</head>\n<body>\n' + WA_SYMBOL + '\n')
 
 
 def header(t, active, fname):
     links = ''.join('<li><a href="%s"%s>%s</a></li>' % (h, ' class="active"' if h == active else '', lb) for h, lb in t['nav'])
     sw = ''.join('<a href="../%s/%s"%s data-setlang="%s">%s</a>' % (lg, fname, ' class="active"' if lg == t['lang'] else '', lg, LANG_NAMES[lg]) for lg in LANGS)
-    return ('<header><div class="container nav">'
-            '<a href="index.html" class="logo"><img src="../assets/monograma.png" alt="JMB"><div class="logo-text"><strong>JOÃO MARCOS A. BATISTA</strong><span>' + t['logo_tag'] + '</span></div></a>'
-            '<ul class="nav-links" id="navLinks">' + links + '</ul>'
-            '<div style="display:flex;align-items:center;gap:12px">'
-            '<div class="lang-sw">' + sw + '</div>'
-            '<a class="nav-cta" href="' + WA + '?text=' + t['wa_default'] + '" target="_blank" rel="noopener">' + WA_ICON + '<span>' + t['wa_btn'] + '</span></a>'
-            '<button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>'
-            '</div></div></header>\n')
+    return ('<header class="hd"><div class="hd-in">'
+            '<a href="index.html" class="brand"><img src="../assets/monograma.png" alt=""><span>João Marcos A. Batista</span></a>'
+            '<nav class="nav" id="nav"><ul>' + links + '</ul><div class="lang">' + sw + '</div></nav>'
+            + ext(wa(t['wa_default']), WA_ICON + '<span>' + t['wa_btn'] + '</span>', 'hd-wa') +
+            '<button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>'
+            '</div></header>\n<main>\n')
 
 
 def footer(t):
     links = ''.join('<li><a href="%s">%s</a></li>' % (h, lb) for h, lb in t['ft_links'])
-    return ('<footer><div class="container"><div class="ft-grid">'
+    return ('</main>\n<footer class="ft"><div class="wrap"><div class="ft-grid">'
             '<div class="ft-brand"><img src="../assets/monograma.png" alt="JMB">'
-            '<p><strong style="color:#fff">João Marcos A. Batista</strong><br>' + t['logo_tag'] + '<br>OAB/SP 454.179 · CNPJ 44.546.186/0001-54</p></div>'
-            '<div class="ft"><h5>' + t['ft_nav'] + '</h5><ul>' + links + '</ul></div>'
-            '<div class="ft"><h5>' + t['ft_contact'] + '</h5><ul>'
-            '<li><a href="' + WA + '" target="_blank" rel="noopener">(11) 98621-3553</a></li>'
+            '<p><strong>João Marcos A. Batista</strong><br>' + t['logo_tag'] + '<br>OAB/SP 454.179 · CNPJ 44.546.186/0001-54</p></div>'
+            '<div><h5>' + t['ft_nav'] + '</h5><ul>' + links + '</ul></div>'
+            '<div><h5>' + t['ft_contact'] + '</h5><ul>'
+            '<li>' + ext(WA, '(11) 98621-3553') + '</li>'
             '<li><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></li>'
-            '<li><a href="https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo" target="_blank" rel="noopener">Rua Enxovia, 472 — Brooklin, SP</a></li>'
-            '<li><a href="https://www.instagram.com/adv.joaomarcosbatista" target="_blank" rel="noopener">Instagram</a></li></ul></div>'
-            '</div><div class="ft-bottom">© 2026 João Marcos A. Batista. ' + t['ft_rights'] + '<br>' + t['ft_legal'] + '</div></div></footer>\n')
+            '<li>' + ext('https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo', 'Rua Enxovia, 472 — Brooklin, SP') + '</li>'
+            '<li>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '</li></ul></div>'
+            '</div><div class="ft-bottom"><p>© 2026 João Marcos A. Batista. ' + t['ft_rights'] + '<br>' + t['ft_legal'] + '</p>'
+            + ext('https://seryalab.com.br/advocacia', 'Site por Serya Lab', 'credit') + '</div></div></footer>\n')
 
 
 def floats(t):
-    return ('<a class="wa-float" href="' + WA + '?text=' + t['wa_default'] + '" target="_blank" rel="noopener" aria-label="WhatsApp">' + WA_ICON + '</a>'
-            '<a class="wa-bar" href="' + WA + '?text=' + t['wa_default'] + '" target="_blank" rel="noopener">' + WA_ICON + ' ' + t['wa_bar'] + '</a>\n')
+    return ext(wa(t['wa_default']), WA_ICON + ' ' + t['wa_bar'], 'wa-bar') + '\n'
+
+
+def eyebrow(s):
+    return '<p class="eyebrow" data-r>' + s + '</p>'
 
 
 def cta_band(h2, p, btn, wa_msg):
-    return ('<section class="section cta-band"><div class="container"><h2>' + h2 + '</h2><p>' + p + '</p>'
-            '<a class="btn btn-gold" href="' + WA + '?text=' + wa_msg + '" target="_blank" rel="noopener">' + btn + '</a></div></section>\n')
+    return ('<section class="sec dark band"><div class="wrap narrow center">'
+            '<h2 class="d2" data-words>' + h2 + '</h2><p class="lead" data-r>' + p + '</p>'
+            '<div data-r>' + ext(wa(wa_msg), btn, 'btn btn-gold') + '</div></div></section>\n')
 
 
 def faq_block(t, items):
-    rows = ''.join('<div class="faq-item"><button class="faq-q">%s</button><div class="faq-a"><p>%s</p></div></div>' % qa for qa in items)
-    return ('<section class="section"><div class="container"><div class="section-head"><div class="eyebrow">' + t['fq_eyebrow'] + '</div><h2>' + t['fq_h2'] + '</h2></div><div class="faq-list">' + rows + '</div></div></section>\n')
+    rows = ''.join('<details class="qa" data-r><summary>%s<i></i></summary><p>%s</p></details>' % qa for qa in items)
+    return ('<section class="sec"><div class="wrap narrow">' + eyebrow(t['fq_eyebrow']) +
+            '<h2 class="d2" data-r>' + t['fq_h2'] + '</h2><div class="qas">' + rows + '</div></div></section>\n')
 
 
-def urg_split(t, h2=None, p1=None, p2=None):
-    steps = ''.join('<li>%s</li>' % s for s in t['urg_steps'])
-    body = '<p style="margin-top:24px">' + (p1 or t['urg_p1']) + '</p>'
-    if p2 is not False:
-        body += '<p>' + (p2 or t['urg_p2']) + '</p>'
-    return ('<section class="section"><div class="container split-grid"><div>'
-            '<div class="eyebrow">' + t['urg_eyebrow'] + '</div><h2>' + (h2 or t['urg_h2']) + '</h2>' + body +
-            '<a class="btn btn-gold" style="margin-top:12px" href="' + WA + '?text=' + t['wa_urgente'] + '" target="_blank" rel="noopener">' + t['urg_cta'] + '</a></div>'
-            '<div class="card-passos"><h3>' + t['urg_card'] + '</h3><ol>' + steps + '</ol></div></div></section>\n')
+def steps_block(t, h2, p, steps_title=True):
+    steps = ''.join('<li data-r><span>0%d</span>%s</li>' % (i + 1, s) for i, s in enumerate(t['urg_steps']))
+    return ('<section class="sec dark urg"><div class="wrap">' + eyebrow(t['urg_eyebrow']) +
+            '<h2 class="d1" data-words>' + h2 + '</h2>'
+            '<div class="urg-grid"><div><p class="lead" data-r>' + p + '</p>'
+            '<div data-r>' + ext(wa(t['wa_urgente']), t['urg_cta'], 'btn btn-gold') + '</div></div>'
+            '<div><h3 class="mini" data-r>' + t['urg_card'] + '</h3><ol class="steps">' + steps + '</ol></div></div>'
+            '</div></section>\n')
 
 
 def timeline(t):
-    items = ''.join('<div class="tl-item"><div class="tl-num">0%d</div><h4>%s</h4><p>%s</p></div>' % (i + 1, h, p) for i, (h, p) in enumerate(t['tl']))
-    return ('<section class="section timeline"><div class="container"><div class="eyebrow">' + t['tl_eyebrow'] + '</div><h2>' + t['tl_h2'] + '</h2><div class="tl-grid">' + items + '</div></div></section>\n')
+    items = ''.join('<div class="tl-i" data-r><span>0%d</span><h3>%s</h3><p>%s</p></div>' % (i + 1, h, p) for i, (h, p) in enumerate(t['tl']))
+    return ('<section class="sec off"><div class="wrap">' + eyebrow(t['tl_eyebrow']) +
+            '<h2 class="d2" data-r>' + t['tl_h2'] + '</h2><div class="tl">' + items + '</div></div></section>\n')
 
 
-ICONS = {'crim': '<svg viewBox="0 0 24 24"><path d="M12 3v18M5 7l7-4 7 4M5 7v3c0 2 1.5 3.5 3.5 3.5S12 12 12 10M19 7v3c0 2-1.5 3.5-3.5 3.5S12 12 12 10M7 21h10"/></svg>',
-         'trib': '<svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V10M12 20V4M18 20v-8"/></svg>',
-         'intl': '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>'}
+def rows_block(eb, h2, cards):
+    rows = ''.join('<div class="row" data-r><span class="num">%02d</span><h3>%s</h3><p>%s</p></div>' % (i + 1, h, p) for i, (h, p) in enumerate(cards))
+    return ('<section class="sec"><div class="wrap">' + eyebrow(eb) + '<h2 class="d2" data-r>' + h2 + '</h2>'
+            '<div class="rows">' + rows + '</div></div></section>\n')
+
+
+def photo(src, alt, cls='ph'):
+    return '<figure class="' + cls + '" data-curtain><img src="../assets/' + src + '" alt="' + alt + '" loading="lazy"></figure>'
+
+
+def split(inner, img, alt, dark=False, rev=False, extra_cls=''):
+    cls = 'sec' + (' dark' if dark else '') + (' ' + extra_cls if extra_cls else '')
+    return ('<section class="' + cls + '"><div class="wrap split' + (' rev' if rev else '') + '">'
+            '<div class="split-tx">' + inner + '</div>' + photo(img, alt) + '</div></section>\n')
+
+
+def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
+    btn = ('<div class="ctas" data-r>' + ext(cta[0], cta[1], 'btn btn-gold') + '</div>') if cta else ''
+    tx = eyebrow(eb) + '<h1 class="d1" data-r>' + h1 + '</h1><p class="lead" data-r>' + sub + '</p>' + btn
+    if img:
+        return ('<section class="phero"><div class="wrap phero-in"><div class="phero-tx">' + tx + '</div>'
+                + photo(img, alt, 'ph phero-ph') + '</div></section>\n')
+    return '<section class="phero solo"><div class="wrap narrow center">' + tx + '</div></section>\n'
+
+
+TILES = [('cid', 'joao-cidade.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'equipe-leonardo.jpg'),
+         ('blinds', 'joao-blinds.jpg'), ('gab', 'equipe-gabriel.jpg'), ('wil', 'equipe-willian.jpg')]
 
 
 def body_index(t):
-    creds = ''.join('<div class="cred"><b>%s</b>%s</div>' % c for c in t['creds'])
-    faqs = faq_block(t, t['faq_home'])
-    news = ''.join(news_card(t, t['_lg'], n) for n in NEWS[:3])
-    opts = ''.join('<option>%s</option>' % o for o in t['ct_f_opts'])
-    return ('''
-<section class="hero" id="inicio"><div class="container hero-grid"><div>
-<div class="eyebrow">''' + t['hero_eyebrow'] + '''</div>
-<h1>''' + t['hero_h1'] + '''</h1>
-<p class="hero-sub">''' + t['hero_sub'] + '''</p>
-<div class="badge-plantao"><span class="pulse"></span> ''' + t['hero_badge'] + '''</div>
-<div class="hero-ctas"><a class="btn btn-gold" href="''' + WA + '?text=' + t['wa_urgente'] + '''" target="_blank" rel="noopener">''' + t['hero_cta1'] + '''</a><a class="btn btn-outline" href="#areas">''' + t['hero_cta2'] + '''</a></div>
-</div><div class="hero-photo"><img src="../assets/hero-joao.jpg" alt="João Marcos A. Batista"></div></div></section>
-<div class="creds"><div class="container creds-grid">''' + creds + '''</div></div>
-''' + urg_split(t) + '''
-<section class="section areas" id="areas"><div class="container">
-<div class="section-head"><div class="eyebrow">''' + t['ar_eyebrow'] + '''</div><h2>''' + t['ar_h2'] + '''</h2><p>''' + t['ar_p'] + '''</p></div>
-<div class="macro-grid">
-<div class="macro"><div class="macro-icon">''' + ICONS['crim'] + '''</div><h3>''' + t['ar_crim_h'] + '''</h3><p>''' + t['ar_crim_p'] + '''</p><a href="criminal.html">''' + t['ar_crim_a'] + '''</a></div>
-<div class="macro"><div class="macro-icon">''' + ICONS['trib'] + '''</div><h3>''' + t['ar_trib_h'] + '''</h3><p>''' + t['ar_trib_p'] + '''</p><a href="tributario.html">''' + t['ar_trib_a'] + '''</a></div>
-<div class="macro"><div class="macro-icon">''' + ICONS['intl'] + '''</div><h3>''' + t['ar_intl_h'] + '''</h3><p>''' + t['ar_intl_p'] + '''</p><a href="internacional.html">''' + t['ar_intl_a'] + '''</a></div>
-</div></div></section>
-<section class="section ponte"><div class="container split-grid"><div>
-<div class="eyebrow">''' + t['po_eyebrow'] + '''</div><h2>''' + t['po_h2'] + '''</h2>
-<p style="margin-top:24px">''' + t['po_p1'] + '''</p><p>''' + t['po_p2'] + '''</p>
-<a class="btn btn-gold" style="margin-top:12px" href="''' + WA + '?text=' + t['wa_empresa'] + '''" target="_blank" rel="noopener">''' + t['po_cta'] + '''</a>
-</div><div class="ponte-photo"><img src="../assets/joao-atuacao.jpg" alt="João Marcos A. Batista"></div></div></section>
-''' + timeline(t) + '''
-<section class="section"><div class="container split-grid"><div>
-<div class="eyebrow">''' + t['in_eyebrow'] + '''</div><h2>''' + t['in_h2'] + '''</h2>
-<p style="margin-top:24px">''' + t['in_p'] + '''</p>
-<div class="intl-en">''' + t['in_en'] + '''</div>
-<a class="btn btn-outline-dark" href="internacional.html">''' + t['in_a'] + '''</a>
-</div><div class="foto-frame"><img src="../assets/joao-cidade.jpg" alt="International practice"></div></div></section>
-<section class="section areas"><div class="container">
-<div class="section-head"><div class="eyebrow">''' + t['nw_eyebrow'] + '''</div><h2>''' + t['nw_h2'] + '''</h2><p>''' + t['nw_p'] + '''</p></div>
-<div class="news-grid">''' + news + '''</div>
-<div class="rev-link"><a href="noticias.html" style="color:var(--dourado)">''' + t['nw_all'] + '''</a></div>
-</div></section>
-<section class="section reviews"><div class="container">
-<div class="section-head"><div class="eyebrow">''' + t['rv_eyebrow'] + '''</div><h2>''' + t['rv_h2'] + '''</h2>
-<div class="rating"><span class="stars">★★★★★</span> ''' + t['rv_rating'] + '''</div></div>
-<div class="rev-grid">
-<div class="rev"><div class="rev-stars">★★★★★</div><p>''' + t['rv1'] + '''</p><b>''' + t['rv1n'] + '''</b></div>
-<div class="rev"><div class="rev-stars">★★★★★</div><p>''' + t['rv2'] + '''</p><b>''' + t['rv2n'] + '''</b><span>''' + t['rv2t'] + '''</span></div>
-<div class="rev"><div class="rev-stars">★★★★★</div><p>''' + t['rv3'] + '''</p><b>''' + t['rv3n'] + '''</b><span>''' + t['rv3t'] + '''</span></div>
-</div>
-<div class="rev-link"><a href="https://www.google.com/search?q=jo%C3%A3o+marcos+a+batista+advocacia" target="_blank" rel="noopener">''' + t['rv_link'] + '''</a></div>
-</div></section>
-''' + faqs + '''
-<section class="section contato" id="contato"><div class="container">
-<div class="eyebrow">''' + t['ct_eyebrow'] + '''</div><h2>''' + t['ct_h2'] + '''</h2>
-<div class="ct-grid"><div class="ct-info">
-<a class="ct-wa" href="''' + WA + '?text=' + t['wa_default'] + '''" target="_blank" rel="noopener">''' + WA_ICON + ' ' + t['wa_btn'] + ''' — (11) 98621-3553</a>
-<div class="ct-block"><h3>''' + t['ct_email'] + '''</h3><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></div>
-<div class="ct-block"><h3>''' + t['ct_addr'] + '''</h3>Neo Corporate Offices<br>Rua Enxovia, 472 — conj. 1504 e 1505<br>Brooklin, São Paulo/SP · CEP 04711-030<br><a href="https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo" target="_blank" rel="noopener" style="color:var(--dourado)">''' + t['ct_map'] + '''</a></div>
-<div class="ct-block"><h3>''' + t['ct_redes'] + '''</h3><a href="https://www.instagram.com/adv.joaomarcosbatista" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://www.facebook.com/joaomarcos951" target="_blank" rel="noopener">Facebook</a></div>
-</div><div>
-<form id="ctForm" onsubmit="return enviarForm(event)">
-<div class="f-row"><input type="text" name="nome" placeholder="''' + t['ct_f_nome'] + '''" required><input type="tel" name="whatsapp" placeholder="''' + t['ct_f_wa'] + '''" required></div>
-<select name="assunto" required><option value="" disabled selected>''' + t['ct_f_ass'] + '''</option>''' + opts + '''</select>
-<textarea name="mensagem" placeholder="''' + t['ct_f_msg'] + '''"></textarea>
-<label class="lgpd"><input type="checkbox" required> ''' + t['ct_f_lgpd'] + '''</label>
-<button type="submit" class="btn btn-gold">''' + t['ct_f_btn'] + '''</button>
-<p class="micro">''' + t['ct_f_micro'] + '''</p>
-</form></div></div></div></section>
-''')
+    lg = t['_lg']
+    tiles = ''.join('<figure class="tile t-%s"><img src="../assets/%s" alt="" loading="lazy"></figure>' % tl for tl in TILES)
+    creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
+    panels = ''
+    for i, (k, img, href) in enumerate([('crim', 'joao-colete.jpg', 'criminal.html'), ('trib', 'joao-blinds.jpg', 'tributario.html'), ('intl', 'joao-cidade.jpg', 'internacional.html')]):
+        panels += ('<article class="panel"><div class="panel-in wrap">'
+                   '<figure class="panel-ph"><img src="../assets/' + img + '" alt="' + t['ar_%s_h' % k] + '" loading="lazy"></figure>'
+                   '<div class="panel-tx"><span class="num">0' + str(i + 1) + '</span><h3 class="d2">' + t['ar_%s_h' % k] + '</h3>'
+                   '<p class="lead">' + t['ar_%s_p' % k] + '</p><a class="link" href="' + href + '">' + t['ar_%s_a' % k] + '</a></div>'
+                   '</div></article>')
+    news = ''.join(news_card(t, lg, n) for n in NEWS)
+    team = [('joao-sobre.jpg', 'João Marcos A. Batista', t['eq_role']), ('equipe-leonardo.jpg', 'Leonardo Almeida Santos', t['eq_o_role']),
+            ('equipe-willian.jpg', 'Willian Moura Rodrigues', t['eq_w_role']), ('equipe-gabriel.jpg', 'Gabriel Mantovani', t['eq_g_role'])]
+    people = ''.join('<a class="pp" href="equipe.html" data-r><figure><img src="../assets/%s" alt="%s" loading="lazy"></figure><b>%s</b><span>%s</span></a>' % (f, n, n, r) for f, n, r in team)
+    return (
+        # 1. hero → mosaico (efeito principal)
+        '<section class="stage" id="inicio"><div class="stage-in">'
+        '<div class="stage-copy"><p class="eyebrow">' + t['hero_eyebrow'] + '</p>'
+        '<h1 class="d0">' + t['hero_h1'] + '</h1>'
+        '<div class="ctas">' + ext(wa(t['wa_urgente']), t['hero_cta1'], 'btn btn-gold') + '<a class="btn-text" href="#areas">' + t['hero_cta2'] + '</a></div>'
+        '<div class="stage-more"><p class="statement">' + t['st_h'] + '</p>'
+        '<p class="badge"><span class="dot"></span>' + t['hero_badge'] + '</p></div>'
+        '</div>'
+        '<div class="mosaic"><div class="cell-hero"></div>' + tiles +
+        '<figure class="tile t-hero"><img src="../assets/hero-joao.jpg" alt="João Marcos A. Batista" fetchpriority="high"><span class="shade"></span></figure></div>'
+        '<div class="ph-start"></div>'
+        '</div></section>\n'
+        # 2. credenciais
+        '<section class="creds"><div class="wrap creds-in">' + creds + '</div></section>\n'
+        # 3. urgência
+        + steps_block(t, t['urg_h2'], t['urg_p1'] + ' ' + t['urg_p2']) +
+        # 4. áreas (painéis empilhados)
+        '<section class="areas" id="areas"><div class="sec wrap narrow center areas-head">' + eyebrow(t['ar_eyebrow']) +
+        '<h2 class="d1" data-words>' + t['ar_h2'] + '</h2><p class="lead" data-r>' + t['ar_p'] + '</p></div>'
+        '<div class="stack">' + panels + '</div></section>\n'
+        # 5. penal econômico
+        + split(eyebrow(t['po_eyebrow']) + '<h2 class="d2" data-r>' + t['po_h2'] + '</h2><p data-r>' + t['po_p1'] + '</p><p data-r>' + t['po_p2'] + '</p>'
+                '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-dark') + '</div>', 'joao-atuacao.jpg', 'João Marcos A. Batista') +
+        # 6. na mídia (rolagem horizontal)
+        '<section class="hscroll off"><div class="wrap hs-head">' + eyebrow(t['nw_eyebrow']) +
+        '<h2 class="d2" data-r>' + t['nw_h2'] + '</h2><p class="lead" data-r>' + t['nw_p'] + '</p></div>'
+        '<div class="hs-track">' + news + '<a class="nc nc-all" href="noticias.html"><span>' + t['nw_all'] + '</span></a></div></section>\n'
+        # 7. equipe
+        '<section class="sec"><div class="wrap">' + eyebrow(t['eq_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_h1'] + '</h2>'
+        '<p class="lead" data-r>' + t['eq_sub'] + '</p><div class="people">' + people + '</div></div></section>\n'
+        # 8. avaliações (só nota + link)
+        '<section class="rating off"><div class="wrap center" data-r><span class="stars">★★★★★</span><p>' + t['rv_rating'] + '</p>'
+        + ext('https://www.google.com/search?q=jo%C3%A3o+marcos+a+batista+advocacia', t['rv_link'], 'link') + '</div></section>\n'
+        # 9. perguntas
+        + faq_block(t, t['faq_home']) +
+        # 10. contato
+        '<section class="sec dark contact" id="contato"><div class="wrap">' + eyebrow(t['ct_eyebrow']) +
+        '<h2 class="d1" data-words>' + t['ct_h2'] + '</h2>'
+        '<div data-r>' + ext(wa(t['wa_default']), WA_ICON + '<span>(11) 98621-3553</span><small>' + t['wa_btn'] + '</small>', 'ct-wa') + '</div>'
+        '<div class="ct-grid">'
+        '<div data-r><h3 class="mini">' + t['ct_email'] + '</h3><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></div>'
+        '<div data-r><h3 class="mini">' + t['ct_addr'] + '</h3><p>Neo Corporate Offices<br>Rua Enxovia, 472 — conj. 1504 e 1505<br>Brooklin, São Paulo/SP · 04711-030</p>'
+        + ext('https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo', t['ct_map'], 'link') + '</div>'
+        '<div data-r><h3 class="mini">' + t['ct_redes'] + '</h3><p>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '<br>'
+        + ext('https://www.facebook.com/joaomarcos951', 'Facebook') + '</p></div>'
+        '</div></div></section>\n')
 
 
 def body_criminal(t):
-    cards = ''.join('<div class="sub"><h4>%s</h4><p>%s</p></div>' % c for c in t['cr_cards'])
-    return ('<section class="page-hero"><div class="container"><div class="eyebrow">' + t['cr_eyebrow'] + '</div><h1>' + t['cr_h1'] + '</h1><p class="hero-sub">' + t['cr_sub'] + '</p><div class="hero-ctas"><a class="btn btn-gold" href="' + WA + '?text=' + t['wa_urgente'] + '" target="_blank" rel="noopener">' + t['cr_cta'] + '</a></div></div></section>\n'
-            + urg_split(t, h2=t['cr_urg_h2'], p1=t['cr_urg_p'], p2=False)
-            + '<section class="section areas"><div class="container"><div class="section-head"><div class="eyebrow">' + t['cr_sub_eyebrow'] + '</div><h2>' + t['cr_sub_h2'] + '</h2></div><div class="sub-grid">' + cards + '</div></div></section>\n'
+    return (page_hero(t['cr_eyebrow'], t['cr_h1'], t['cr_sub'], (wa(t['wa_urgente']), t['cr_cta']), 'joao-colete.jpg')
+            + steps_block(t, t['cr_urg_h2'], t['cr_urg_p'])
+            + rows_block(t['cr_sub_eyebrow'], t['cr_sub_h2'], t['cr_cards'])
             + timeline(t) + faq_block(t, t['cr_faq'])
             + cta_band(t['cr_band_h'], t['cr_band_p'], t['cr_band_b'], t['cr_band_wa']))
 
 
 def body_tributario(t):
-    cards = ''.join('<div class="sub"><h4>%s</h4><p>%s</p></div>' % c for c in t['tb_cards'])
-    return ('<section class="page-hero"><div class="container"><div class="eyebrow">' + t['tb_eyebrow'] + '</div><h1>' + t['tb_h1'] + '</h1><p class="hero-sub">' + t['tb_sub'] + '</p><div class="hero-ctas"><a class="btn btn-gold" href="' + WA + '?text=' + t['wa_trib'] + '" target="_blank" rel="noopener">' + t['tb_cta'] + '</a></div></div></section>\n'
-            '<section class="section"><div class="container split-grid"><div><div class="eyebrow">' + t['tb_why_eyebrow'] + '</div><h2>' + t['tb_why_h2'] + '</h2><p style="margin-top:24px">' + t['tb_why_p1'] + '</p><p>' + t['tb_why_p2'] + '</p></div><div class="foto-frame"><img src="../assets/joao-blinds.jpg" alt="João Marcos A. Batista"></div></div></section>\n'
-            '<section class="section areas"><div class="container"><div class="section-head"><div class="eyebrow">' + t['tb_sv_eyebrow'] + '</div><h2>' + t['tb_sv_h2'] + '</h2></div><div class="sub-grid cols2">' + cards + '</div></div></section>\n'
-            '<section class="section ponte"><div class="container"><div class="eyebrow">' + t['po_eyebrow'] + '</div><h2>' + t['tb_po_h2'] + '</h2><p style="margin-top:24px;max-width:760px">' + t['tb_po_p1'] + '</p><p style="max-width:760px">' + t['tb_po_p2'] + '</p><a class="btn btn-gold" style="margin-top:22px" href="' + WA + '?text=' + t['wa_empresa'] + '" target="_blank" rel="noopener">' + t['po_cta'] + '</a></div></section>\n'
+    return (page_hero(t['tb_eyebrow'], t['tb_h1'], t['tb_sub'], (wa(t['wa_trib']), t['tb_cta']), 'joao-blinds.jpg')
+            + split(eyebrow(t['tb_why_eyebrow']) + '<h2 class="d2" data-r>' + t['tb_why_h2'] + '</h2><p data-r>' + t['tb_why_p1'] + '</p><p data-r>' + t['tb_why_p2'] + '</p>',
+                    'joao-sobre.jpg', 'João Marcos A. Batista', rev=True)
+            + rows_block(t['tb_sv_eyebrow'], t['tb_sv_h2'], t['tb_cards'])
+            + '<section class="sec dark"><div class="wrap narrow">' + eyebrow(t['po_eyebrow']) + '<h2 class="d1" data-words>' + t['tb_po_h2'] + '</h2>'
+              '<p class="lead" data-r>' + t['tb_po_p1'] + '</p><p class="lead" data-r>' + t['tb_po_p2'] + '</p>'
+              '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-gold') + '</div></div></section>\n'
             + faq_block(t, t['tb_faq'])
             + cta_band(t['tb_band_h'], t['tb_band_p'], t['tb_band_b'], t['wa_trib']))
 
 
 def body_internacional(t):
-    cards = ''.join('<div class="sub"><h4>%s</h4><p>%s</p></div>' % c for c in t['il_cards'])
-    return ('<section class="page-hero"><div class="container"><div class="eyebrow">' + t['il_eyebrow'] + '</div><h1>' + t['il_h1'] + '</h1><p class="hero-sub">' + t['il_sub'] + '</p><div class="hero-ctas"><a class="btn btn-gold" href="' + WA + '?text=' + t['wa_intl'] + '" target="_blank" rel="noopener">' + t['il_cta'] + '</a></div></div></section>\n'
-            '<section class="section"><div class="container split-grid"><div><div class="eyebrow">' + t['il_how_eyebrow'] + '</div><h2>' + t['il_how_h2'] + '</h2><p style="margin-top:24px">' + t['il_how_p1'] + '</p><p>' + t['il_how_p2'] + '</p><div class="intl-en">' + t['il_how_box'] + '</div></div><div class="foto-frame"><img src="../assets/joao-cidade.jpg" alt="International criminal defense in Brazil"></div></div></section>\n'
-            '<section class="section areas"><div class="container"><div class="section-head"><div class="eyebrow">' + t['il_ar_eyebrow'] + '</div><h2>' + t['il_ar_h2'] + '</h2></div><div class="sub-grid cols2">' + cards + '</div></div></section>\n'
+    return (page_hero(t['il_eyebrow'], t['il_h1'], t['il_sub'], (wa(t['wa_intl']), t['il_cta']), 'joao-cidade.jpg', 'International criminal defense in Brazil')
+            + split(eyebrow(t['il_how_eyebrow']) + '<h2 class="d2" data-r>' + t['il_how_h2'] + '</h2><p data-r>' + t['il_how_p1'] + '</p><p data-r>' + t['il_how_p2'] + '</p>'
+                    '<blockquote data-r>' + t['il_how_box'] + '</blockquote>', 'joao-colete.jpg', 'João Marcos A. Batista', rev=True)
+            + rows_block(t['il_ar_eyebrow'], t['il_ar_h2'], t['il_cards'])
             + cta_band(t['il_band_h'], t['il_band_p'], t['il_band_b'], t['wa_intl']))
 
 
-def adv_card(name, role, bio, photo):
-    if photo:
-        ph = '<div class="adv-photo"><img src="../assets/' + photo + '" alt="' + name + '" loading="lazy"></div>'
-    else:
-        ph = '<div class="adv-photo adv-photo-alt"><span>' + ''.join(p[0] for p in name.split()[:2]) + '</span></div>'
-    return '<div class="adv-card">' + ph + '<div class="adv-body"><h3>' + name + '</h3><div class="oab">' + role + '</div><p>' + bio + '</p></div></div>'
+def person(name, role, bio, img):
+    return ('<article class="person" data-r><figure><img src="../assets/' + img + '" alt="' + name + '" loading="lazy"></figure>'
+            '<h3>' + name + '</h3><p class="role">' + role + '</p><p>' + bio + '</p></article>')
 
 
 def body_equipe(t):
-    return ('<section class="page-hero"><div class="container"><div class="eyebrow">' + t['eq_eyebrow'] + '</div><h1>' + t['eq_h1'] + '</h1><p class="hero-sub">' + t['eq_sub'] + '</p></div></section>\n'
-            '<section class="section"><div class="container split-grid"><div class="foto-frame left"><img src="../assets/joao-sobre.jpg" alt="João Marcos A. Batista"></div><div>'
-            '<div class="eyebrow">' + t['eq_role'] + '</div><h2>João Marcos A. Batista</h2>'
-            '<p style="margin-top:6px;color:var(--dourado);font-weight:600;letter-spacing:.08em;font-size:13px">OAB/SP 454.179</p>'
-            '<p style="margin-top:18px">' + t['eq_bio1'] + '</p><p>' + t['eq_bio2'] + '</p><p>' + t['eq_bio3'] + '</p></div></div></section>\n'
-            '<section class="section areas"><div class="container"><div class="section-head"><div class="eyebrow">' + t['eq_adv_eyebrow'] + '</div><h2>' + t['eq_adv_h2'] + '</h2></div>'
-            '<div class="adv-grid single">'
-            + adv_card('Leonardo Almeida Santos', t['eq_o_role'], t['eq_o_bio'], 'equipe-leonardo.jpg')
-            + '</div></div></section>\n'
-            '<section class="section"><div class="container"><div class="section-head"><div class="eyebrow">' + t['eq_at_eyebrow'] + '</div><h2>' + t['eq_at_h2'] + '</h2><p>' + t['eq_at_p'] + '</p></div>'
-            '<div class="adv-grid">'
-            + adv_card('Willian Moura Rodrigues', t['eq_w_role'], t['eq_w_bio'], 'equipe-willian.jpg')
-            + adv_card('Gabriel Mantovani', t['eq_g_role'], t['eq_g_bio'], 'equipe-gabriel.jpg')
-            + '</div></div></section>\n'
+    return (page_hero(t['eq_eyebrow'], t['eq_h1'], t['eq_sub'])
+            + split(eyebrow(t['eq_role']) + '<h2 class="d2" data-r>João Marcos A. Batista</h2><p class="role" data-r>OAB/SP 454.179</p>'
+                    '<p data-r>' + t['eq_bio1'] + '</p><p data-r>' + t['eq_bio2'] + '</p><p data-r>' + t['eq_bio3'] + '</p>',
+                    'joao-sobre.jpg', 'João Marcos A. Batista', rev=True)
+            + '<section class="sec off"><div class="wrap">' + eyebrow(t['eq_adv_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_adv_h2'] + '</h2>'
+              '<div class="persons">' + person('Leonardo Almeida Santos', t['eq_o_role'], t['eq_o_bio'], 'equipe-leonardo.jpg') + '</div>'
+              '<div class="sub-head">' + eyebrow(t['eq_at_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_at_h2'] + '</h2><p class="lead" data-r>' + t['eq_at_p'] + '</p></div>'
+              '<div class="persons">' + person('Willian Moura Rodrigues', t['eq_w_role'], t['eq_w_bio'], 'equipe-willian.jpg')
+            + person('Gabriel Mantovani', t['eq_g_role'], t['eq_g_bio'], 'equipe-gabriel.jpg') + '</div></div></section>\n'
             + cta_band(t['eq_band_h'], t['eq_band_p'], t['eq_band_b'], t['wa_equipe']))
 
 
 def body_noticias(t):
     cards = ''.join(news_card(t, t['_lg'], n) for n in NEWS)
-    return ('<section class="page-hero"><div class="container"><div class="eyebrow">' + t['nt_eyebrow'] + '</div><h1>' + t['nt_h1'] + '</h1><p class="hero-sub">' + t['nt_sub'] + '</p></div></section>\n'
-            '<section class="section areas"><div class="container"><div class="news-grid">' + cards + '</div></div></section>\n'
+    return (page_hero(t['nt_eyebrow'], t['nt_h1'], t['nt_sub'])
+            + '<section class="sec off"><div class="wrap news-grid">' + cards + '</div></section>\n'
             + cta_band(t['nt_band_h'], t['nt_band_p'], t['nt_band_b'], t['wa_imprensa']))
 
 
 PAGES = [
-    ('index.html', 'ix_title', 'ix_desc', body_index, True, True),
-    ('criminal.html', 'cr_title', 'cr_desc', body_criminal, False, False),
-    ('tributario.html', 'tb_title', 'tb_desc', body_tributario, False, False),
-    ('internacional.html', 'il_title', 'il_desc', body_internacional, False, False),
-    ('equipe.html', 'eq_title', 'eq_desc', body_equipe, False, False),
-    ('noticias.html', 'nt_title', 'nt_desc', body_noticias, False, False),
+    ('index.html', 'ix_title', 'ix_desc', body_index, True),
+    ('criminal.html', 'cr_title', 'cr_desc', body_criminal, False),
+    ('tributario.html', 'tb_title', 'tb_desc', body_tributario, False),
+    ('internacional.html', 'il_title', 'il_desc', body_internacional, False),
+    ('equipe.html', 'eq_title', 'eq_desc', body_equipe, False),
+    ('noticias.html', 'nt_title', 'nt_desc', body_noticias, False),
 ]
 
 DETECTOR = '''<!DOCTYPE html>
@@ -578,38 +595,27 @@ DETECTOR = '''<!DOCTYPE html>
 </html>
 '''
 
-# build
-if os.path.exists(OUT):
-    shutil.rmtree(OUT)
-os.makedirs(OUT)
-shutil.copytree('/home/claude/site-jmb/assets', OUT + '/assets')
-if os.path.exists(OUT + '/assets/style.css'):
-    pass
-open(OUT + '/index.html', 'w').write(DETECTOR)
-shutil.copy('/home/claude/site-jmb/bio.html', OUT + '/bio.html')
-
-# redirect stubs na raiz (Vercel cleanUrls: /criminal -> criminal.html -> /{lang}/criminal.html)
 STUB_PAGES = {
  'criminal.html':('Advocacia Criminal — João Marcos A. Batista',[('pt','Criminal'),('en','Criminal Defense'),('es','Defensa Penal')]),
- 'tributario.html':('Advocacia Tributária — João Marcos A. Batista',[('pt','Tributário'),('en','Tax Law'),('es','Tributario')]),
- 'internacional.html':('Atuação Internacional — João Marcos A. Batista',[('pt','Internacional'),('en','International'),('es','Internacional')]),
+ 'tributario.html':('Advocacia Tributária — João Marcos A. Batista',[('pt','Tributário'),('en','Tax Law'),('es','Derecho Tributario')]),
+ 'internacional.html':('International Practice — João Marcos A. Batista',[('pt','Internacional'),('en','International'),('es','Internacional')]),
  'equipe.html':('Equipe — João Marcos A. Batista',[('pt','Equipe'),('en','Team'),('es','Equipo')]),
  'noticias.html':('Notícias — João Marcos A. Batista',[('pt','Notícias'),('en','News'),('es','Noticias')]),
 }
-for fname, (title, links) in STUB_PAGES.items():
-    html = DETECTOR.replace('João Marcos A. Batista — Advocacia e Consultoria', title).replace("location.replace(d+'/index.html')", "location.replace(d+'/" + fname + "')").replace('url=pt/index.html', 'url=pt/' + fname)
-    html = html.replace('<a href="pt/index.html">PORTUGUÊS</a><a href="en/index.html">ENGLISH</a><a href="es/index.html">ESPAÑOL</a>',
-                        ''.join('<a href="%s/%s">%s</a>' % (lg, fname, lb) for lg, lb in links))
-    open(OUT + '/' + fname, 'w').write(html)
-open(OUT + '/vercel.json', 'w').write('{\n  "cleanUrls": true,\n  "trailingSlash": false\n}\n')
-for lg, t in LANGS.items():
-    t['_lg'] = lg
-    os.makedirs(OUT + '/' + lg, exist_ok=True)
-    for fname, tk, dk, fn, schema, form in PAGES:
-        html = head(t, t[tk], t[dk], fname, schema) + header(t, fname if fname != 'index.html#contato' else 'index.html', fname) + fn(t) + footer(t) + floats(t) + SCRIPT_BASE
-        if form:
-            html += SCRIPT_FORM
-        html += '\n</body>\n</html>\n'
-        open(OUT + '/' + lg + '/' + fname, 'w').write(html)
-        print(lg + '/' + fname, len(html) // 1024, 'KB')
-print('done')
+if __name__ == '__main__':
+    # raiz: detector de idioma + stubs de redirecionamento (bio.html e assets ficam como estão no repositório)
+    open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(DETECTOR)
+    for fname, (title, links) in STUB_PAGES.items():
+        html = DETECTOR.replace('João Marcos A. Batista — Advocacia e Consultoria', title).replace("location.replace(d+'/index.html')", "location.replace(d+'/" + fname + "')").replace('url=pt/index.html', 'url=pt/' + fname)
+        html = html.replace('<a href="pt/index.html">PORTUGUÊS</a><a href="en/index.html">ENGLISH</a><a href="es/index.html">ESPAÑOL</a>',
+                            ''.join('<a href="%s/%s">%s</a>' % (lg, fname, lb) for lg, lb in links))
+        open(os.path.join(OUT, fname), 'w', encoding='utf-8').write(html)
+    for lg, t in LANGS.items():
+        t['_lg'] = lg
+        os.makedirs(os.path.join(OUT, lg), exist_ok=True)
+        for fname, tk, dk, fn, schema in PAGES:
+            html = (head(t, t[tk], t[dk], fname, schema) + header(t, fname, fname) + fn(t) + footer(t) + floats(t)
+                    + '</body>\n</html>\n')
+            open(os.path.join(OUT, lg, fname), 'w', encoding='utf-8').write(html)
+            print(lg + '/' + fname, len(html) // 1024, 'KB')
+    print('done')
