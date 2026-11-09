@@ -108,7 +108,7 @@ p+p{margin-top:16px}
   grid-template-areas:"cid hero atu" "leo hero blinds" "gab wil blinds"}
 .tile{margin:0;overflow:hidden;border-radius:3px;background:var(--g3);position:relative}
 .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
-.t-leo img,.t-gab img,.t-wil img{object-position:center 40%}
+.t-leo img,.t-gab img,.t-wil img{object-position:center 55%}
 .t-cid{grid-area:cid}.t-atu{grid-area:atu}.t-leo{grid-area:leo}.t-blinds{grid-area:blinds}.t-gab{grid-area:gab}.t-wil{grid-area:wil}
 .t-hero,.cell-hero{grid-area:hero}
 .zw{position:absolute;inset:0;overflow:hidden}
