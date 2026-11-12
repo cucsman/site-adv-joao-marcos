@@ -440,8 +440,8 @@ def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
     return '<section class="phero solo"><div class="wrap narrow center">' + tx + '</div></section>\n'
 
 
-TILES = [('cid', 'joao-perfil.jpg'), ('atu', 'joao-atuacao.jpg'), ('leo', 'escritorio-recepcao.jpg'),
-         ('blinds', 'joao-vitrine.jpg'), ('gab', 'escritorio-reuniao.jpg'), ('wil', 'escritorio-sala.jpg')]
+TILES = [('rec', 'escritorio-recepcao.jpg'), ('reu', 'escritorio-reuniao.jpg'),
+         ('sala', 'escritorio-sala.jpg'), ('team', 'equipe-reuniao.jpg')]
 
 
 def body_index(t):
@@ -449,7 +449,7 @@ def body_index(t):
     tiles = ''.join('<figure class="tile t-%s"><img src="../assets/%s" alt="" loading="lazy"></figure>' % tl for tl in TILES)
     creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
     panels = ''
-    for i, (k, img, href) in enumerate([('crim', 'joao-bracos.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'joao-cidade.jpg', 'internacional.html')]):
+    for i, (k, img, href) in enumerate([('crim', 'leonardo-mesa.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
         panels += ('<article class="panel"><div class="panel-in">'
                    '<figure class="panel-ph"><img src="../assets/' + img + '" alt="' + t['ar_%s_h' % k] + '" loading="lazy"></figure>'
                    '<div class="panel-tx"><span class="num">0' + str(i + 1) + '</span><h3 class="d2">' + t['ar_%s_h' % k] + '</h3>'
@@ -482,14 +482,16 @@ def body_index(t):
         '<div class="stack">' + panels + '</div></section>\n'
         # 5. penal econômico
         + split(eyebrow(t['po_eyebrow']) + '<h2 class="d2" data-r>' + t['po_h2'] + '</h2><p data-r>' + t['po_p1'] + '</p><p data-r>' + t['po_p2'] + '</p>'
-                '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-dark') + '</div>', 'joao-blinds.jpg', 'João Marcos A. Batista') +
+                '<div data-r>' + ext(wa(t['wa_empresa']), t['po_cta'], 'btn btn-dark') + '</div>', 'penal-economico.jpg', t['po_eyebrow']) +
         # 6. na mídia (rolagem horizontal)
         '<section class="hscroll off"><div class="wrap hs-head">' + eyebrow(t['nw_eyebrow']) +
         '<h2 class="d2" data-r>' + t['nw_h2'] + '</h2><p class="lead" data-r>' + t['nw_p'] + '</p></div>'
         '<div class="hs-track">' + news + '<a class="nc nc-all" href="noticias.html"><span>' + t['nw_all'] + '</span></a></div></section>\n'
         # 7. equipe
-        '<section class="sec"><div class="wrap">' + eyebrow(t['eq_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_h1'] + '</h2>'
-        '<p class="lead" data-r>' + t['eq_sub'] + '</p><div class="people">' + people + '</div></div></section>\n'
+        '<section class="sec dark team-sec"><div class="wrap">' + eyebrow(t['eq_eyebrow']) + '<h2 class="d1" data-words>' + t['eq_h1'] + '</h2>'
+        '<p class="lead" data-r>' + t['eq_sub'] + '</p></div>'
+        '<div class="wrap wide"><figure class="team-ph" data-curtain><img src="../assets/equipe-grupo.jpg" alt="' + t['eq_eyebrow'] + '" loading="lazy"></figure>'
+        '<div class="people">' + people + '</div></div></section>\n'
         # 8. avaliações (só nota + link)
         '<section class="rating off"><div class="wrap center" data-r><span class="stars">★★★★★</span><p>' + t['rv_rating'] + '</p>'
         + ext('https://www.google.com/search?q=jo%C3%A3o+marcos+a+batista+advocacia', t['rv_link'], 'link') + '</div></section>\n'

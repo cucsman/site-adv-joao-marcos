@@ -105,16 +105,17 @@ p+p{margin-top:16px}
 .badge{display:inline-flex;align-items:center;gap:10px;margin-top:22px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
 .mosaic{position:relative;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:12px;padding:calc(var(--hd) + 20px) var(--pad) 28px 0;
-  grid-template-areas:"cid hero atu" "leo hero blinds" "gab wil blinds"}
+  grid-template-areas:"rec hero reu" "rec hero reu" "sala team team"}
 .tile{margin:0;overflow:hidden;border-radius:3px;background:var(--g3);position:relative}
 .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
-.t-leo img,.t-gab img,.t-wil img{object-position:center 55%}
-.t-cid{grid-area:cid}.t-atu{grid-area:atu}.t-leo{grid-area:leo}.t-blinds{grid-area:blinds}.t-gab{grid-area:gab}.t-wil{grid-area:wil}
+.t-rec img,.t-reu img,.t-sala img{object-position:center 55%}
+.t-team img{object-position:center 40%}
+.t-rec{grid-area:rec}.t-reu{grid-area:reu}.t-sala{grid-area:sala}.t-team{grid-area:team}
 .t-hero,.cell-hero{grid-area:hero}
 .zw{position:absolute;inset:0;overflow:hidden}
-.t-hero img{object-position:center 10%}
+.t-hero img{object-position:center 4%}
 .shade{position:absolute;inset:0;background:linear-gradient(90deg,var(--g2) 0%,rgba(35,36,40,.55) 22%,rgba(35,36,40,0) 48%);opacity:0;pointer-events:none}
-.ph-start{position:absolute;left:40%;top:0;right:0;bottom:0;visibility:hidden;pointer-events:none}
+.ph-start{position:absolute;left:max(46%,calc(100% - 72vh));top:0;right:0;bottom:0;visibility:hidden;pointer-events:none}
 @media(min-width:900px){
   .js:not(.static) .t-hero{position:absolute;grid-area:auto;left:0;top:0;width:100%;height:100%;border-radius:0;z-index:1}
   .js:not(.static) .t-hero .shade{opacity:1}
@@ -127,8 +128,8 @@ p+p{margin-top:16px}
   .stage-lead .d0{font-size:clamp(36px,9.6vw,54px)}
   .stage-lead .ctas{margin-top:28px;gap:4px}
   .statement{margin-top:40px}
-  .mosaic{order:-1;padding:0 var(--pad);grid-template-rows:max(92svh,600px);grid-auto-rows:44vw;gap:8px;
-    grid-template-areas:"hero hero hero" "cid atu blinds" "leo gab wil"}
+  .mosaic{order:-1;padding:0 var(--pad);grid-template-rows:max(92svh,600px) 60vw 58vw;gap:8px;
+    grid-template-areas:"hero hero hero" "rec reu sala" "team team team"}
   .t-hero{margin:0 calc(-1 * var(--pad)) 32px;border-radius:0}
   .t-hero img{object-position:center 6%}
   .shade{opacity:1;background:linear-gradient(0deg,rgba(35,36,40,.97) 0%,rgba(35,36,40,.78) 30%,rgba(35,36,40,0) 62%),linear-gradient(180deg,rgba(35,36,40,.55) 0%,rgba(35,36,40,0) 16%)}
@@ -222,14 +223,18 @@ blockquote{margin-top:32px;padding-left:24px;border-left:1px solid var(--gold);f
 @media(max-width:899px){.news-grid{grid-template-columns:1fr;gap:56px}}
 
 /* 7. equipe */
-.people{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:clamp(56px,7vw,96px)}
+.wrap.wide{max-width:1680px}
+.team-sec .lead{max-width:640px}
+.team-ph{margin:clamp(56px,7vw,96px) 0 0;aspect-ratio:16/9;overflow:hidden;border-radius:3px;background:var(--g3)}
+.team-ph img{width:100%;height:100%;object-fit:cover;object-position:center 45%}
+.people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
 .pp figure{position:relative;margin:0;aspect-ratio:3/4;overflow:hidden;border-radius:3px;background:var(--off)}
 .pp figcaption{position:absolute;left:0;right:0;bottom:0;padding:64px 20px 18px;background:linear-gradient(0deg,rgba(28,29,32,.9) 0%,rgba(28,29,32,0) 100%)}
 .pp img{width:100%;height:100%;object-fit:cover;object-position:center 15%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .pp:hover img{transform:scale(1.04)}
-.pp b{display:block;font-family:var(--serif);font-size:23px;font-weight:500;color:var(--w);line-height:1.2}
+.pp b{display:block;font-family:var(--serif);font-size:clamp(23px,1.9vw,30px);font-weight:500;color:var(--w);line-height:1.2}
 .pp span{display:block;font-size:12.5px;margin-top:4px;color:#dcd9d3;line-height:1.45}
-@media(max-width:899px){.people{grid-template-columns:1fr 1fr;gap:12px}.pp figcaption{padding:48px 12px 12px}.pp b{font-size:18px}.pp span{font-size:11.5px}}
+@media(max-width:899px){.team-ph{aspect-ratio:4/3;margin-left:calc(-1 * var(--pad));margin-right:calc(-1 * var(--pad));border-radius:0}.people{grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.pp figcaption{padding:48px 12px 12px}.pp b{font-size:18px}.pp span{font-size:11.5px}}
 .persons{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px}
 .person figure{margin:0;aspect-ratio:3/4;overflow:hidden;border-radius:3px}
 .person img{width:100%;height:100%;object-fit:cover;object-position:center 15%}

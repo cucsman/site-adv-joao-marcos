@@ -123,7 +123,7 @@
         { left: function () { return rect(cell).left; }, top: function () { return rect(cell).top; },
           width: function () { return rect(cell).width; }, height: function () { return rect(cell).height; }, borderRadius: 3,
           ease: 'power2.inOut', duration: 1 }, 0)
-        .fromTo(zw, { scale: 1.2 }, { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
+        .fromTo(zw, { scale: 1.06 }, { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         .fromTo(shade, { opacity: 1 }, { opacity: 0, duration: 0.5 }, 0)
         .fromTo(tiles, { y: function (i) { return -window.innerHeight * (0.7 + (i % 3) * 0.15); }, opacity: 0 },
           { y: 0, opacity: 1, ease: 'power3.out', duration: 0.75, stagger: 0.07 }, 0.2)
@@ -135,7 +135,7 @@
         scrollTrigger: { trigger: stage.querySelector('.mosaic'), start: 'top 80%', once: true } });
       gsap.fromTo(hero.querySelector('img'), { scale: 1.3 }, { scale: 1, duration: 2.2, ease: 'expo.out' });
       gsap.fromTo(stage.querySelector('.stage-lead'), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, delay: 0.25, ease: ease });
-      gsap.fromTo(zw, { scale: 1 }, { scale: 1.25, ease: 'none', immediateRender: false,
+      gsap.fromTo(zw, { scale: 1 }, { scale: 1.12, ease: 'none', immediateRender: false,
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: SCRUB } });
       gsap.fromTo(stage.querySelector('.stage-more'), { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 1.1, ease: ease,
         scrollTrigger: { trigger: stage.querySelector('.stage-more'), start: 'top 90%', once: true } });
