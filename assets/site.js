@@ -158,25 +158,33 @@
     });
   }
 
-  // ÁREAS: painéis empilhados; o anterior recua quando o próximo sobe
-  // (gatilhos medidos no .stack, que não é sticky: medir o próprio painel preso dá posição errada)
-  var stack = d.querySelector('.stack'), panels = gsap.utils.toArray('.panel');
-  var at = function (i, pos) {
-    return function () {
-      var p = panels[0], step = p.offsetHeight + parseFloat(getComputedStyle(p).marginBottom);
-      return 'top+=' + Math.round(i * step) + ' ' + pos;
+  // ÁREAS: painéis empilhados; o anterior recua quando o próximo sobe.
+  // Tudo é medido a cada quadro pela posição real de cada painel na tela (nada pré-calculado),
+  // então fonte, foto ou zoom que mudem a altura da página não fazem o painel escurecer antes da hora.
+  var panels = gsap.utils.toArray('.panel');
+  if (panels.length) {
+    var clamp = gsap.utils.clamp(0, 1);
+    var parts = panels.map(function (p) {
+      return { p: p, img: p.querySelector('img'), tx: p.querySelector('.panel-tx'), inn: p.querySelector('.panel-in') };
+    });
+    var paint = function () {
+      var vh = window.innerHeight;
+      parts.forEach(function (o, i) {
+        var top = o.p.getBoundingClientRect().top;
+        var enter = clamp((vh - top) / vh);                    // 0 = painel abaixo da tela, 1 = ocupando a tela
+        var text = clamp((vh * 0.75 - top) / (vh * 0.6));      // texto surge entre 75% e 15% da altura
+        gsap.set(o.img, { scale: 1.45 - 0.45 * enter });
+        gsap.set(o.tx, { opacity: text, y: 50 * (1 - text) });
+        var next = parts[i + 1];
+        if (next) {
+          var back = clamp((vh - next.p.getBoundingClientRect().top) / vh); // quanto o próximo já subiu
+          gsap.set(o.inn, { scale: 1 - 0.1 * back, opacity: 1 - 0.7 * back });
+        }
+      });
     };
-  };
-  panels.forEach(function (p, i) {
-    gsap.fromTo(p.querySelector('img'), { scale: 1.45 }, { scale: 1, ease: 'none',
-      scrollTrigger: { trigger: stack, start: at(i, 'bottom'), end: at(i, 'top'), scrub: SCRUB, invalidateOnRefresh: true } });
-    gsap.fromTo(p.querySelector('.panel-tx'), { opacity: 0, y: 50 }, { opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: stack, start: at(i, '75%'), end: at(i, '15%'), scrub: true, invalidateOnRefresh: true } });
-    if (i < panels.length - 1) {
-      gsap.to(p.querySelector('.panel-in'), { scale: 0.9, opacity: 0.3, ease: 'none',
-        scrollTrigger: { trigger: stack, start: at(i + 1, 'bottom'), end: at(i + 1, 'top'), scrub: SCRUB, invalidateOnRefresh: true } });
-    }
-  });
+    ScrollTrigger.create({ trigger: '.stack', start: 'top bottom', end: 'bottom top', onUpdate: paint, onRefresh: paint });
+    paint();
+  }
 
   // MÍDIA: rolagem horizontal presa à tela (desktop)
   mm.add('(min-width: 900px)', function () {
