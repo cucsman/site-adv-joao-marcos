@@ -24,6 +24,21 @@
   function onScroll() { hd.classList.toggle('scrolled', window.scrollY > 24); }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
+  // formulário de contato: envia por e-mail (FormSubmit) sem sair da página
+  var form = d.getElementById('ctForm');
+  if (form && window.fetch) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = form.querySelector('button'), msg = form.querySelector('.f-msg');
+      btn.disabled = true;
+      fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw j; }); })
+        .then(function () { form.reset(); msg.className = 'f-msg ok'; msg.textContent = form.getAttribute('data-ok'); })
+        .catch(function () { msg.className = 'f-msg'; msg.textContent = form.getAttribute('data-err'); })
+        .then(function () { btn.disabled = false; });
+    });
+  }
+
   if (!window.gsap || !window.ScrollTrigger) { root.classList.add('static'); return; }
   // se o fallback de 3s já marcou .static (rede lenta), volta a animar
   root.classList.remove('static');

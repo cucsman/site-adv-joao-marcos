@@ -52,7 +52,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'rv_link':'Ver todas as avaliações no Google',
 'fq_eyebrow':'Dúvidas frequentes','fq_h2':'Perguntas frequentes',
 'faq_home':[('Meu familiar foi preso em flagrante. O que devo fazer primeiro?','Procure um advogado imediatamente e não incentive declarações sem defesa técnica presente. A audiência de custódia ocorre em até 24 horas e é o primeiro momento em que a liberdade pode ser discutida. Nosso plantão orienta a família desde o primeiro contato.'),('Minha empresa foi autuada pelo Fisco. O que fazer?','A autuação pode ser contestada administrativa e judicialmente — inclusive no CARF — e, em muitos casos, o passivo pode ser reduzido, parcelado ou compensado com créditos. O importante é agir dentro dos prazos de defesa. Em situações mais graves, a atuação conjunta com a defesa penal evita que a questão fiscal evolua para a esfera criminal.'),('O escritório atende fora de São Paulo?','Sim. A atuação é em todo o território nacional, incluindo Tribunais Superiores em Brasília. O atendimento inicial pode ser feito por videochamada ou WhatsApp.'),('Vocês atendem estrangeiros?','Sim. O escritório integra a lista de advogados da Embaixada dos EUA no Brasil e atende em inglês, português e espanhol, incluindo contato com familiares no exterior e representações consulares.'),('Como funciona a primeira consulta?','O caso é analisado com sigilo absoluto e o cliente recebe uma avaliação honesta dos riscos e das estratégias possíveis, com honorários definidos de forma transparente antes de qualquer contratação.')],
-'ct_eyebrow':'Contato','ct_h2':'Fale com o escritório','ct_email':'E-mail','ct_addr':'Endereço','ct_map':'Ver no mapa →','ct_redes':'Redes',
+'ct_eyebrow':'Contato','ct_h2':'Fale com o escritório','ct_email':'E-mail','ct_addr':'Endereço','ct_map':'Como chegar →','ct_redes':'Redes','ct_f_h':'Envie uma mensagem','ct_f_nome':'Nome','ct_f_tel':'Telefone / WhatsApp','ct_f_email':'E-mail','ct_f_ass':'Assunto','ct_f_opts':['Criminal','Tributário','Internacional','Outro'],'ct_f_msg':'Conte brevemente o seu caso','ct_f_lgpd':'Seus dados são usados apenas para retornarmos o contato, com sigilo e conforme a LGPD.','ct_f_btn':'Enviar mensagem','ct_f_micro':'Urgências: use o WhatsApp 24h.','ct_f_ok':'Mensagem enviada. Em breve entraremos em contato.','ct_f_err':'Não foi possível enviar agora. Tente pelo WhatsApp ou pelo e-mail.','ct_f_subj':'Nova mensagem pelo site',
 # criminal page
 'cr_title':'Advocacia Criminal em São Paulo — Plantão 24h | João Marcos A. Batista','cr_desc':'Defesa criminal em todas as fases: flagrante, audiência de custódia, Tribunal do Júri, Habeas Corpus e Revisão Criminal. Plantão 24 horas.',
 'cr_eyebrow':'Advocacia Criminal','cr_h1':'Defesa em <em>todas as fases</em> do processo penal.','cr_sub':'Do inquérito e da prisão em flagrante às sustentações no Tribunal do Júri e aos Habeas Corpus nos Tribunais Superiores — com estratégia definida caso a caso.','cr_cta':'Plantão 24h no WhatsApp',
@@ -137,7 +137,7 @@ E.update({
 'rv_link':'See all reviews on Google',
 'fq_eyebrow':'FAQ','fq_h2':'Frequently asked questions',
 'faq_home':[('A family member was arrested in Brazil. What should I do first?','Contact a lawyer immediately and do not encourage any statement without defense counsel present. The custody hearing happens within 24 hours and is the first moment release can be argued. Our emergency line guides families from the first call.'),('My company received a tax assessment. What now?','The assessment can be challenged administratively — including before CARF — and in court. In many cases the liability can be reduced, paid in installments or offset with credits. Acting within the defense deadlines is essential.'),('Do you handle cases outside São Paulo?','Yes. We act nationwide, including before the Superior Courts in Brasília. Initial consultations can be held by video call or WhatsApp.'),('Do you work with foreign clients?',"Yes. The firm is included in the U.S. Embassy's attorney list in Brazil and works in English, Portuguese and Spanish, including liaison with families abroad and consular offices."),('How does the first consultation work?','Your case is reviewed in strict confidence and you receive an honest assessment of risks and possible strategies, with fees set transparently before any engagement.')],
-'ct_eyebrow':'Contact','ct_h2':'Contact the firm','ct_email':'E-mail','ct_addr':'Address','ct_map':'View on map →','ct_redes':'Social',
+'ct_eyebrow':'Contact','ct_h2':'Contact the firm','ct_email':'E-mail','ct_addr':'Address','ct_map':'Get directions →','ct_redes':'Social','ct_f_h':'Send a message','ct_f_nome':'Name','ct_f_tel':'Phone / WhatsApp','ct_f_email':'E-mail','ct_f_ass':'Subject','ct_f_opts':['Criminal','Tax','International','Other'],'ct_f_msg':'Briefly describe your case','ct_f_lgpd':'Your data is used only to get back to you, confidentially and in line with Brazilian data protection law (LGPD).','ct_f_btn':'Send message','ct_f_micro':'Emergencies: use the 24/7 WhatsApp line.','ct_f_ok':'Message sent. We will be in touch shortly.','ct_f_err':'The message could not be sent. Please use WhatsApp or e-mail.','ct_f_subj':'New message from the website (EN)',
 'cr_title':'Criminal Defense in Brazil — 24/7 | João Marcos A. Batista','cr_desc':'Criminal defense at every stage: arrest, custody hearing, jury trial, Habeas Corpus and post-conviction review. 24/7 emergency line.',
 'cr_eyebrow':'Criminal Defense','cr_h1':'Defense at <em>every stage</em> of the criminal case.','cr_sub':'From investigation and arrest to jury trials and Habeas Corpus before the Superior Courts — with a strategy built case by case.','cr_cta':'24/7 WhatsApp line',
 'cr_urg_h2':'The first 24 hours decide a lot','cr_urg_p':'After an arrest in flagrante, the custody hearing happens within 24 hours — that is where release is argued. We act from the police station on: guiding the family, following the paperwork, and defending at the hearing.',
@@ -217,7 +217,7 @@ S.update({
 'rv_link':'Ver todas las reseñas en Google',
 'fq_eyebrow':'Preguntas frecuentes','fq_h2':'Preguntas frecuentes',
 'faq_home':[('Un familiar fue detenido en Brasil. ¿Qué hago primero?','Contacte a un abogado de inmediato y no permita declaraciones sin defensa presente. La audiencia de custodia ocurre dentro de las 24 horas y es el primer momento en que puede discutirse la libertad. Nuestra guardia orienta a la familia desde el primer contacto.'),('Mi empresa recibió una liquidación fiscal. ¿Qué hacer?','La liquidación puede impugnarse en vía administrativa — incluso ante el CARF — y judicial. En muchos casos el pasivo puede reducirse, fraccionarse o compensarse con créditos. Lo esencial es actuar dentro de los plazos de defensa.'),('¿Atienden fuera de São Paulo?','Sí. Actuamos en todo Brasil, incluidos los Tribunales Superiores en Brasilia. La primera consulta puede hacerse por videollamada o WhatsApp.'),('¿Atienden a extranjeros?','Sí. El despacho integra la lista de abogados de la Embajada de EE.UU. en Brasil y atiende en español, portugués e inglés, incluido el contacto con familiares en el exterior y oficinas consulares.'),('¿Cómo funciona la primera consulta?','El caso se analiza con absoluta confidencialidad y el cliente recibe una evaluación honesta de los riesgos y estrategias posibles, con honorarios definidos de forma transparente antes de cualquier contratación.')],
-'ct_eyebrow':'Contacto','ct_h2':'Hable con el despacho','ct_email':'E-mail','ct_addr':'Dirección','ct_map':'Ver en el mapa →','ct_redes':'Redes',
+'ct_eyebrow':'Contacto','ct_h2':'Hable con el despacho','ct_email':'E-mail','ct_addr':'Dirección','ct_map':'Cómo llegar →','ct_redes':'Redes','ct_f_h':'Envíe un mensaje','ct_f_nome':'Nombre','ct_f_tel':'Teléfono / WhatsApp','ct_f_email':'E-mail','ct_f_ass':'Asunto','ct_f_opts':['Penal','Tributario','Internacional','Otro'],'ct_f_msg':'Cuente brevemente su caso','ct_f_lgpd':'Sus datos se usan solo para responderle, con confidencialidad y conforme a la ley brasileña de protección de datos (LGPD).','ct_f_btn':'Enviar mensaje','ct_f_micro':'Urgencias: use el WhatsApp 24h.','ct_f_ok':'Mensaje enviado. Pronto nos pondremos en contacto.','ct_f_err':'No fue posible enviar ahora. Use el WhatsApp o el e-mail.','ct_f_subj':'Nuevo mensaje desde el sitio (ES)',
 'cr_title':'Defensa Penal en Brasil — 24h | João Marcos A. Batista','cr_desc':'Defensa penal en todas las etapas: detención, audiencia de custodia, jurado, Habeas Corpus y revisión criminal. Guardia 24 horas.',
 'cr_eyebrow':'Derecho Penal','cr_h1':'Defensa en <em>todas las etapas</em> del proceso penal.','cr_sub':'De la investigación y la detención en flagrancia a los alegatos ante el jurado y los Habeas Corpus ante los Tribunales Superiores — con estrategia definida caso a caso.','cr_cta':'Guardia 24h por WhatsApp',
 'cr_urg_h2':'Las primeras 24 horas deciden mucho','cr_urg_p':'En la detención en flagrancia, la audiencia de custodia ocurre dentro de las 24 horas — allí se discute la libertad. Actuamos desde la comisaría: orientación a la familia, seguimiento del registro y defensa inmediata en la audiencia.',
@@ -466,13 +466,34 @@ def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
 
 
 TILES = [('rec', 'escritorio-recepcao.jpg'), ('reu', 'escritorio-reuniao.jpg'), ('sala', 'escritorio-sala.jpg')]
-TEAM_TILE = ['joao-sobre.jpg', 'equipe-leonardo.jpg', 'equipe-willian.jpg', 'equipe-gabriel.jpg']
+
+
+MAPS = 'https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo'
+FORM_TO = 'joao@jmbadv.com.br'
+
+
+def contact_form(t):
+    """Formulário enviado por e-mail via FormSubmit (sem servidor). O 1º envio pede ativação no e-mail do João."""
+    opts = ''.join('<option>%s</option>' % o for o in t['ct_f_opts'])
+    fld = lambda name, typ, lb, req=' required': '<label><span>%s</span><input type="%s" name="%s"%s></label>' % (lb, typ, name, req)
+    return ('<form class="ct-form" id="ctForm" action="https://formsubmit.co/ajax/' + FORM_TO + '" method="POST" data-r'
+            ' data-ok="' + t['ct_f_ok'] + '" data-err="' + t['ct_f_err'] + '">'
+            '<h3 class="mini">' + t['ct_f_h'] + '</h3>'
+            '<input type="hidden" name="_subject" value="' + t['ct_f_subj'] + '"><input type="hidden" name="_template" value="table">'
+            '<input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">'
+            '<div class="f-grid">' + fld('nome', 'text', t['ct_f_nome']) + fld('telefone', 'tel', t['ct_f_tel'])
+            + fld('email', 'email', t['ct_f_email'], '')
+            + '<label><span>' + t['ct_f_ass'] + '</span><select name="assunto" required><option value="" disabled selected></option>' + opts + '</select></label>'
+            '<label class="full"><span>' + t['ct_f_msg'] + '</span><textarea name="mensagem" rows="4" required></textarea></label></div>'
+            '<p class="f-note">' + t['ct_f_lgpd'] + '</p>'
+            '<div class="f-act"><button type="submit" class="btn btn-gold">' + t['ct_f_btn'] + '</button>'
+            '<p class="f-msg" role="status" aria-live="polite">' + t['ct_f_micro'] + '</p></div></form>')
 
 
 def body_index(t):
     lg = t['_lg']
     tiles = ''.join('<figure class="tile t-%s"><img src="../assets/%s" alt="" loading="lazy"></figure>' % tl for tl in TILES)
-    tiles += '<figure class="tile t-team"><div class="quad">' + ''.join('<img src="../assets/%s" alt="" loading="lazy">' % f for f in TEAM_TILE) + '</div></figure>'
+    tiles += '<figure class="tile t-team"><img src="../assets/joao-recepcao.jpg" alt="" loading="lazy"></figure>'
     creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
     panels = ''
     for i, (k, img, href) in enumerate([('crim', 'equipe-leonardo.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
@@ -523,13 +544,16 @@ def body_index(t):
         # 9. perguntas
         + faq_block(t, t['faq_home']) +
         # 10. contato
-        '<section class="sec dark contact" id="contato"><div class="wrap">' + eyebrow(t['ct_eyebrow']) +
+        '<section class="sec dark contact" id="contato"><div class="wrap">'
+        '<div class="ct-top"><div>' + eyebrow(t['ct_eyebrow']) +
         '<h2 class="d1" data-words>' + t['ct_h2'] + '</h2>'
         '<div data-r>' + ext(wa(t['wa_default']), WA_ICON + '<span>+55 (11) 98621-3553</span><small>' + t['wa_btn'] + '</small>', 'ct-wa') + '</div>'
+        '<div class="ct-addr" data-r><h3 class="mini">' + t['ct_addr'] + '</h3><p>Neo Corporate Offices<br>Rua Enxovia, 472 — conj. 1504 e 1505<br>Brooklin, São Paulo/SP · 04711-030</p>'
+        + ext(MAPS, t['ct_map'], 'link') + '</div></div>'
+        '<div class="ct-map" data-r><iframe src="https://www.google.com/maps?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo+SP+04711-030&amp;hl=' + t['lang'] + '&amp;z=16&amp;output=embed" title="' + t['ct_addr'] + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div>'
+        + contact_form(t) +
         '<div class="ct-grid">'
         '<div data-r><h3 class="mini">' + t['ct_email'] + '</h3><a href="mailto:joao@jmbadv.com.br">joao@jmbadv.com.br</a></div>'
-        '<div data-r><h3 class="mini">' + t['ct_addr'] + '</h3><p>Neo Corporate Offices<br>Rua Enxovia, 472 — conj. 1504 e 1505<br>Brooklin, São Paulo/SP · 04711-030</p>'
-        + ext('https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo', t['ct_map'], 'link') + '</div>'
         '<div data-r><h3 class="mini">' + t['ct_redes'] + '</h3><p>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '<br>'
         + ext('https://www.facebook.com/joaomarcos951', 'Facebook') + '</p></div>'
         '</div></div></section>\n')
