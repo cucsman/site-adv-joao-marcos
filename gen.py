@@ -456,8 +456,8 @@ def body_index(t):
                    '<p class="lead">' + t['ar_%s_p' % k] + '</p><a class="link" href="' + href + '">' + t['ar_%s_a' % k] + '</a></div>'
                    '</div></article>')
     news = ''.join(news_card(t, lg, n) for n in NEWS)
-    team = [('joao-sobre.jpg', 'João Marcos A. Batista', t['eq_role']), ('equipe-leonardo.jpg', 'Leonardo Almeida Santos', t['eq_o_role']),
-            ('equipe-willian.jpg', 'Willian Moura Rodrigues', t['eq_w_role']), ('equipe-gabriel.jpg', 'Gabriel Mantovani', t['eq_g_role'])]
+    team = [('joao-sobre.jpg', 'João Marcos A. Batista', t['eq_role']), ('equipe-leonardo.jpg', 'Leonardo A. Santos', t['eq_o_role']),
+            ('equipe-willian.jpg', 'Willian M. Rodrigues', t['eq_w_role']), ('equipe-gabriel.jpg', 'Gabriel Mantovani', t['eq_g_role'])]
     people = ''.join('<a class="pp" href="equipe.html" data-r><figure><img src="../assets/%s" alt="%s" loading="lazy"><figcaption><b>%s</b><span>%s</span></figcaption></figure></a>' % (f, n, n, r) for f, n, r in team)
     return (
         # 1. hero → mosaico (efeito principal)
@@ -549,9 +549,9 @@ def body_equipe(t):
                     '<p data-r>' + t['eq_bio1'] + '</p><p data-r>' + t['eq_bio2'] + '</p><p data-r>' + t['eq_bio3'] + '</p>',
                     'joao-sobre.jpg', 'João Marcos A. Batista', rev=True)
             + '<section class="sec off"><div class="wrap">' + eyebrow(t['eq_adv_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_adv_h2'] + '</h2>'
-              '<div class="persons">' + person('Leonardo Almeida Santos', t['eq_o_role'], t['eq_o_bio'], 'equipe-leonardo.jpg') + '</div>'
+              '<div class="persons">' + person('Leonardo A. Santos', t['eq_o_role'], t['eq_o_bio'], 'equipe-leonardo.jpg') + '</div>'
               '<div class="sub-head">' + eyebrow(t['eq_at_eyebrow']) + '<h2 class="d2" data-r>' + t['eq_at_h2'] + '</h2><p class="lead" data-r>' + t['eq_at_p'] + '</p></div>'
-              '<div class="persons">' + person('Willian Moura Rodrigues', t['eq_w_role'], t['eq_w_bio'], 'equipe-willian.jpg')
+              '<div class="persons">' + person('Willian M. Rodrigues', t['eq_w_role'], t['eq_w_bio'], 'equipe-willian.jpg')
             + person('Gabriel Mantovani', t['eq_g_role'], t['eq_g_bio'], 'equipe-gabriel.jpg') + '</div></div></section>\n'
             + cta_band(t['eq_band_h'], t['eq_band_p'], t['eq_band_b'], t['wa_equipe']))
 
