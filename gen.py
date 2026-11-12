@@ -354,9 +354,20 @@ def head(t, title, desc, fname, schema=False):
             '<link rel="stylesheet" href="../assets/style.css">\n' + sch + SCRIPTS + '</head>\n<body>\n' + WA_SYMBOL + '\n')
 
 
+# ícones do menu: traço fino e cantos vivos, no desenho do monograma
+MENU_ICONS = {
+    'criminal': '<path d="M12 3v18M7.5 21h9M4 6.5h16M6.5 6.5 3.5 13h6zM17.5 6.5l-3 6.5h6zM12 3l-1.5 1.5L12 6l1.5-1.5z"/>',
+    'tributario': '<path d="M6 2.5h8.5l4 4v15H6zM14.5 2.5v4h4M9 17.5l6-6"/><circle cx="9.75" cy="12.25" r="1"/><circle cx="14.25" cy="16.75" r="1"/>',
+    'internacional': '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-2.6 2.6-3.6 5.6-3.6 9s1 6.4 3.6 9c2.6-2.6 3.6-5.6 3.6-9S14.6 5.6 12 3z"/>',
+    'equipe': '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6M15.5 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.4c2.1.7 3.5 2.8 3.5 5.6"/>',
+    'noticias': '<path d="M4 4.5h13v15H6a2 2 0 0 1-2-2zM17 8.5h3v9a2 2 0 0 1-2 2M7 8h7M7 11.5h7M7 15h4"/>',
+    'contato': '<path d="M4 4.5h16v11H10l-4.5 4v-4H4zM8 9h8M8 12h5"/>',
+}
+
+
 def header(t, active, fname):
-    links = ''.join('<li style="--i:%d"><a href="%s"%s><img src="../assets/menu/m-%s.jpg" alt="" loading="lazy">%s</a></li>'
-                    % (i, h, ' class="active"' if h == active else '', h.split('.')[0].replace('index', 'contato'), lb)
+    links = ''.join('<li style="--i:%d"><a href="%s"%s><span class="mi"><svg viewBox="0 0 24 24" aria-hidden="true">%s</svg></span>%s</a></li>'
+                    % (i, h, ' class="active"' if h == active else '', MENU_ICONS[h.split('.')[0].replace('index', 'contato')], lb)
                     for i, (h, lb) in enumerate(t['nav']))
     sw = ''.join('<a href="../%s/%s"%s data-setlang="%s">%s</a>' % (lg, fname, ' class="active"' if lg == t['lang'] else '', lg, LANG_NAMES[lg]) for lg in LANGS)
     return ('<header class="hd"><div class="hd-in">'
