@@ -451,16 +451,17 @@ def page_hero(eb, h1, sub, cta=None, img=None, alt='João Marcos A. Batista'):
     return '<section class="phero solo"><div class="wrap narrow center">' + tx + '</div></section>\n'
 
 
-TILES = [('rec', 'escritorio-recepcao.jpg'), ('reu', 'escritorio-reuniao.jpg'),
-         ('sala', 'escritorio-sala.jpg'), ('team', 'equipe-reuniao.jpg')]
+TILES = [('rec', 'escritorio-recepcao.jpg'), ('reu', 'escritorio-reuniao.jpg'), ('sala', 'escritorio-sala.jpg')]
+TEAM_TILE = ['joao-sobre.jpg', 'equipe-leonardo.jpg', 'equipe-willian.jpg', 'equipe-gabriel.jpg']
 
 
 def body_index(t):
     lg = t['_lg']
     tiles = ''.join('<figure class="tile t-%s"><img src="../assets/%s" alt="" loading="lazy"></figure>' % tl for tl in TILES)
+    tiles += '<figure class="tile t-team"><div class="quad">' + ''.join('<img src="../assets/%s" alt="" loading="lazy">' % f for f in TEAM_TILE) + '</div></figure>'
     creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
     panels = ''
-    for i, (k, img, href) in enumerate([('crim', 'leonardo-mesa.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
+    for i, (k, img, href) in enumerate([('crim', 'equipe-leonardo.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
         panels += ('<article class="panel"><div class="panel-in">'
                    '<figure class="panel-ph"><img src="../assets/' + img + '" alt="' + t['ar_%s_h' % k] + '" loading="lazy"></figure>'
                    '<div class="panel-tx"><span class="num">0' + str(i + 1) + '</span><h3 class="d2">' + t['ar_%s_h' % k] + '</h3>'
@@ -501,8 +502,7 @@ def body_index(t):
         # 7. equipe
         '<section class="sec dark team-sec"><div class="wrap">' + eyebrow(t['eq_eyebrow']) + '<h2 class="d1" data-words>' + t['eq_h1'] + '</h2>'
         '<p class="lead" data-r>' + t['eq_sub'] + '</p></div>'
-        '<div class="wrap wide"><figure class="team-ph" data-curtain><img src="../assets/equipe-grupo.jpg" alt="' + t['eq_eyebrow'] + '" loading="lazy"></figure>'
-        '<div class="people">' + people + '</div></div></section>\n'
+        '<div class="wrap wide"><div class="people">' + people + '</div></div></section>\n'
         # 8. avaliações (só nota + link)
         '<section class="rating off"><div class="wrap center" data-r><span class="stars">★★★★★</span><p>' + t['rv_rating'] + '</p>'
         + ext('https://www.google.com/search?q=jo%C3%A3o+marcos+a+batista+advocacia', t['rv_link'], 'link') + '</div></section>\n'
