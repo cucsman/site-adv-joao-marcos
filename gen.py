@@ -2,6 +2,7 @@
 """Gera o site JMB trilíngue (v2): /pt /en /es + detector na raiz. Saída: a própria pasta do repositório."""
 import os
 import re
+from datetime import date
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 BASE = 'https://www.jmbadv.com.br'
@@ -22,7 +23,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'ft_nav':'Navegação','ft_contact':'Contato','ft_links':[('criminal.html','Advocacia Criminal'),('tributario.html','Advocacia Tributária'),('internacional.html','Internacional'),('equipe.html','Equipe'),('noticias.html','Notícias'),('index.html#contato','Contato')],
 'ft_legal':'Conteúdo meramente informativo, em conformidade com o Provimento 205/2021 da OAB. Este site não constitui promessa de resultado.','ft_rights':'Todos os direitos reservados.',
 # index
-'ix_title':'Advogado Criminalista e Tributarista em São Paulo | João Marcos A. Batista — Plantão 24h',
+'ix_title':'Advogado Criminalista e Tributarista em São Paulo | João Marcos A. Batista',
 'ix_desc':'Defesa criminal e tributária de alta complexidade em São Paulo. Do flagrante aos Tribunais Superiores, da autuação fiscal ao CARF. Plantão 24h.',
 'hero_eyebrow':'Advocacia Criminal e Tributária — São Paulo','hero_h1':'Defesa <em>criminal e tributária</em> em casos de alta complexidade.',
 'st_h':'Do flagrante aos Tribunais Superiores. Da autuação fiscal ao CARF.',
@@ -61,7 +62,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'cr_faq':[('Advogado particular faz diferença em relação à defensoria?','A Defensoria Pública presta um serviço essencial, mas atende milhares de casos simultaneamente. A defesa particular permite dedicação integral ao caso, estratégia individualizada, acompanhamento constante da família e atuação rápida em cada prazo.'),('O que é a audiência de custódia?','É a audiência realizada em até 24 horas após a prisão em flagrante, na qual o juiz decide se a prisão será mantida, convertida em preventiva ou substituída pela liberdade. É o momento mais importante do início do caso.'),('Vocês atuam em processos já em andamento?','Sim. Assumimos casos em qualquer fase — inquérito, instrução, júri, recursos ou execução penal —, inclusive com Revisão Criminal de condenações definitivas.')],
 'cr_band_h':'Precisa de defesa criminal?','cr_band_p':'Plantão 24 horas, todos os dias. Sigilo absoluto desde a primeira conversa.','cr_band_b':'Falar com um advogado agora','cr_band_wa':'Ol%C3%A1%2C%20preciso%20de%20defesa%20criminal.',
 # tributario page
-'tb_title':'Advocacia Tributária Empresarial — CARF, Recuperação de Créditos | João Marcos A. Batista','tb_desc':'Planejamento tributário, recuperação de tributos, parcelamento de ICMS e contencioso no CARF.',
+'tb_title':'Advocacia Tributária Empresarial e CARF | João Marcos A. Batista','tb_desc':'Planejamento tributário, recuperação de tributos, parcelamento de ICMS e contencioso no CARF.',
 'tb_eyebrow':'Advocacia Tributária','tb_h1':'Estratégia fiscal para proteger o <em>caixa e o patrimônio</em> da sua empresa.','tb_sub':'Planejamento, recuperação de créditos, parcelamentos estratégicos e contencioso de alta complexidade — do processo administrativo e do CARF às ações judiciais.','tb_cta':'Agendar análise do caso',
 'tb_why_eyebrow':'Por que o escritório','tb_why_h2':'Atuação tributária de alta complexidade',
 'tb_why_p1':'O escritório atua em contencioso tributário administrativo e judicial — incluindo processos no CARF, execuções fiscais de valores relevantes e reestruturação do passivo de empresas em recuperação judicial.',
@@ -74,7 +75,7 @@ P = {  # ---------------- PORTUGUÊS ----------------
 'tb_faq':[('Minha empresa foi autuada. Quais são os caminhos?','A autuação pode ser contestada na esfera administrativa — inclusive no CARF — e depois judicialmente. Em muitos casos o passivo pode ser reduzido, parcelado ou compensado com créditos. O essencial é agir dentro dos prazos de defesa.'),('Minha empresa pode ter tributos a recuperar?','É comum — principalmente em ICMS, PIS/COFINS e IPI. A revisão fiscal dos últimos 5 anos identifica pagamentos indevidos que podem ser recuperados por compensação ou restituição.'),('Dívida fiscal pode virar caso criminal?','Pode. Determinadas condutas ligadas ao inadimplemento ou à apuração de tributos são tratadas como crime contra a ordem tributária. Por isso o escritório atua nas duas frentes de forma coordenada.')],
 'tb_band_h':'Quanto a sua empresa está pagando a mais?','tb_band_p':'Análise inicial do cenário fiscal da empresa, com sigilo e retorno objetivo sobre riscos e oportunidades.','tb_band_b':'Agendar análise do caso',
 # internacional page
-'il_title':'Atuação Internacional — Lista de Advogados da Embaixada dos EUA | JMB Advocacia','il_desc':'Defesa criminal de estrangeiros no Brasil. Escritório na lista de advogados da Embaixada dos EUA. Atendimento em inglês e espanhol, 24h.',
+'il_title':'Atuação Internacional — Lista da Embaixada dos EUA | JMB Advocacia','il_desc':'Defesa criminal de estrangeiros no Brasil. Escritório na lista de advogados da Embaixada dos EUA. Atendimento em inglês e espanhol, 24h.',
 'il_eyebrow':'International Practice','il_h1':'Defesa criminal de <em>estrangeiros</em> no Brasil.','il_sub':'O escritório integra a lista de advogados da Embaixada dos EUA no Brasil e representa cidadãos estrangeiros em casos criminais em todo o país — em inglês, português e espanhol.','il_cta':'Falar com um advogado agora',
 'il_how_eyebrow':'Como ajudamos','il_how_h2':'Da prisão ao acompanhamento completo do caso',
 'il_how_p1':'Desde 2016 o escritório representa cidadãos estrangeiros em casos criminais no Brasil — da prisão em flagrante e audiência de custódia ao Tribunal do Júri e aos recursos nos Tribunais Superiores, em Brasília.',
@@ -108,7 +109,7 @@ E.update({
 'wa_btn':'WhatsApp 24/7','logo_tag':'Attorneys at Law',
 'ft_nav':'Navigation','ft_contact':'Contact','ft_links':[('criminal.html','Criminal Defense'),('tributario.html','Tax Law'),('internacional.html','International'),('equipe.html','Team'),('noticias.html','News'),('index.html#contato','Contact')],
 'ft_legal':'Informational content only, in accordance with Brazilian Bar Association (OAB) Rule 205/2021. This website is not a promise of results.','ft_rights':'All rights reserved.',
-'ix_title':'Criminal & Tax Lawyer in São Paulo, Brazil | João Marcos A. Batista — 24/7','ix_desc':'High-stakes criminal and tax defense in Brazil. From arrest to the Superior Courts. U.S. Embassy attorney list. English and Spanish spoken. 24/7.',
+'ix_title':'Criminal & Tax Lawyer in São Paulo, Brazil | João Marcos A. Batista','ix_desc':'High-stakes criminal and tax defense in Brazil. From arrest to the Superior Courts. U.S. Embassy attorney list. English and Spanish spoken. 24/7.',
 'hero_eyebrow':'Criminal & Tax Law — São Paulo, Brazil','hero_h1':'<em>Criminal and tax</em> defense for high-stakes cases.',
 'st_h':"From arrest to Brazil's Superior Courts. From tax assessments to the CARF tribunal.",
 'hero_badge':'24/7 emergency line for arrests','hero_cta1':'Talk to a lawyer now','hero_cta2':'Practice areas',
@@ -156,7 +157,7 @@ E.update({
 'tb_po_p2':'Here, tax defense and corporate criminal defense move together from day one: the tax strategy is built with its criminal implications in mind, and vice versa.',
 'tb_faq':[('My company was assessed. What are the options?','The assessment can be challenged administratively — including before CARF — and then in court. In many cases the liability can be reduced, paid in installments or offset with credits. Acting within the defense deadlines is essential.'),('Could my company have taxes to recover?','It is common — especially ICMS, PIS/COFINS and IPI. A review of the last 5 years identifies overpayments recoverable through offset or refund.'),('Can tax debt become a criminal case?','Yes. Certain conduct related to non-payment or tax reporting is treated as a crime against the tax order, reaching partners and executives. That is why the firm works both fronts in a coordinated way.')],
 'tb_band_h':'How much is your company overpaying?','tb_band_p':'Initial review of the company\'s tax scenario, confidential, with an objective read on risks and opportunities.','tb_band_b':'Request a case review',
-'il_title':'Criminal Lawyer for Foreigners in Brazil — U.S. Embassy Attorney List | JMB Law','il_desc':'Criminal defense for foreign nationals in Brazil. U.S. Embassy attorney list. English and Spanish spoken. 24/7 emergency line.',
+'il_title':'Criminal Lawyer for Foreigners in Brazil — U.S. Embassy List | JMB Law','il_desc':'Criminal defense for foreign nationals in Brazil. U.S. Embassy attorney list. English and Spanish spoken. 24/7 emergency line.',
 'il_eyebrow':'International Practice','il_h1':'Criminal defense for <em>foreign nationals</em> in Brazil.','il_sub':"Our firm is included in the U.S. Embassy's list of attorneys in Brazil and represents foreign nationals in criminal cases nationwide — in English, Portuguese and Spanish.",'il_cta':'Talk to a lawyer now',
 'il_how_eyebrow':'How we help','il_how_h2':'From arrest to full case representation',
 'il_how_p1':'Since 2016 the firm has represented foreign citizens in criminal cases in Brazil — from arrest in flagrante and custody hearings to jury trials and appeals before the Superior Courts in Brasília.',
@@ -188,7 +189,7 @@ S.update({
 'wa_btn':'WhatsApp 24h','logo_tag':'Abogados',
 'ft_nav':'Navegación','ft_contact':'Contacto','ft_links':[('criminal.html','Derecho Penal'),('tributario.html','Derecho Tributario'),('internacional.html','Internacional'),('equipe.html','Equipo'),('noticias.html','Noticias'),('index.html#contato','Contacto')],
 'ft_legal':'Contenido meramente informativo, conforme a la norma 205/2021 del Colegio de Abogados de Brasil (OAB). Este sitio no constituye promesa de resultado.','ft_rights':'Todos los derechos reservados.',
-'ix_title':'Abogado Penalista y Tributarista en São Paulo, Brasil | João Marcos A. Batista — 24h','ix_desc':'Defensa penal y tributaria de alta complejidad en Brasil. De la detención a los Tribunales Superiores. Lista de abogados de la Embajada de EE.UU. Atención en español. 24h.',
+'ix_title':'Abogado Penalista y Tributarista en São Paulo | João Marcos A. Batista','ix_desc':'Defensa penal y tributaria de alta complejidad en Brasil. De la detención a los Tribunales Superiores. Lista de abogados de la Embajada de EE.UU. Atención en español. 24h.',
 'hero_eyebrow':'Derecho Penal y Tributario — São Paulo, Brasil','hero_h1':'Defensa <em>penal y tributaria</em> en casos de alta complejidad.',
 'st_h':'De la detención en flagrancia a los Tribunales Superiores. De la liquidación fiscal al CARF.',
 'hero_badge':'Guardia 24 horas para detenciones y urgencias','hero_cta1':'Hablar con un abogado ahora','hero_cta2':'Áreas de práctica',
@@ -224,7 +225,7 @@ S.update({
 'cr_cards':[('Derecho Penal','Defensa ante acusaciones de delitos financieros, tráfico de drogas, delitos sexuales, porte de armas, lesiones, delitos patrimoniales, receptación, estafa y delitos contra el honor, entre otros.'),('De la detención a la libertad','Acompañamos todos los actos de la detención y la investigación: defensas escritas y orales, audiencias, alegatos y Habeas Corpus estratégicos ante los Tribunales Superiores.'),('Tribunal del Jurado','Defensa completa en delitos contra la vida — homicidio, infanticidio, aborto e instigación o auxilio al suicidio — conducida por abogados con experiencia en sala.'),('Error judicial','En condenas firmes injustas, con o sin nuevas pruebas, actuamos con la Revisión Criminal para buscar la absolución o la reducción de la pena.'),('Defensa de víctimas','Representación de víctimas de delitos, con énfasis en violencia doméstica, delitos sexuales, homicidios, amenazas y estafas.'),('Empresas y compliance penal','Asesoría completa en compliance penal, incluidos los delitos contra el sistema financiero, y defensa de empresas víctimas de hurto, apropiación indebida y estafa.')],
 'cr_faq':[('¿Un abogado particular hace diferencia frente al defensor público?','La defensoría pública presta un servicio esencial, pero atiende miles de casos a la vez. La defensa particular permite dedicación integral, estrategia individualizada, información constante a la familia y acción rápida en cada plazo.'),('¿Qué es la audiencia de custodia?','Es la audiencia realizada dentro de las 24 horas de la detención en flagrancia, donde el juez decide si la prisión se mantiene, se convierte en preventiva o se sustituye por la libertad. Es el momento más importante del inicio del caso.'),('¿Toman casos ya en curso?','Sí. Asumimos casos en cualquier etapa — investigación, juicio, jurado, recursos o ejecución penal —, incluida la Revisión Criminal de condenas firmes.')],
 'cr_band_h':'¿Necesita defensa penal en Brasil?','cr_band_p':'Guardia 24 horas, todos los días. Confidencialidad absoluta desde la primera conversación. Hablamos español.','cr_band_b':'Hablar con un abogado ahora','cr_band_wa':'Hola%2C%20necesito%20defensa%20penal%20en%20Brasil.',
-'tb_title':'Derecho Tributario en Brasil — CARF, Recuperación de Impuestos | João Marcos A. Batista','tb_desc':'Planificación fiscal, recuperación de impuestos pagados de más, acuerdos de pago de ICMS y litigio ante el CARF.',
+'tb_title':'Derecho Tributario en Brasil y CARF | João Marcos A. Batista','tb_desc':'Planificación fiscal, recuperación de impuestos pagados de más, acuerdos de pago de ICMS y litigio ante el CARF.',
 'tb_eyebrow':'Derecho Tributario','tb_h1':'Estrategia fiscal para proteger la <em>caja y el patrimonio</em> de su empresa.','tb_sub':'Planificación, recuperación de créditos, acuerdos de pago estratégicos y litigio de alta complejidad — del proceso administrativo y el CARF a los tribunales.','tb_cta':'Agendar análisis del caso',
 'tb_why_eyebrow':'Por qué este despacho','tb_why_h2':'Práctica tributaria de alta complejidad',
 'tb_why_p1':'El despacho litiga en materia tributaria administrativa y judicial — incluidos procesos ante el CARF, ejecuciones fiscales de montos relevantes y reestructuración del pasivo de empresas en reorganización judicial.',
@@ -236,7 +237,7 @@ S.update({
 'tb_po_p2':'Aquí, la defensa tributaria y la defensa penal corporativa caminan juntas desde el primer día: la estrategia fiscal nace considerando sus reflejos penales, y viceversa.',
 'tb_faq':[('Mi empresa fue liquidada por el Fisco. ¿Cuáles son los caminos?','La liquidación puede impugnarse en vía administrativa — incluso ante el CARF — y luego judicial. En muchos casos el pasivo puede reducirse, fraccionarse o compensarse con créditos. Lo esencial es actuar dentro de los plazos.'),('¿Mi empresa puede tener impuestos por recuperar?','Es común — sobre todo ICMS, PIS/COFINS e IPI. La revisión fiscal de los últimos 5 años identifica pagos indebidos recuperables por compensación o devolución.'),('¿Una deuda fiscal puede volverse un caso penal?','Sí. Ciertas conductas ligadas al impago o a la declaración de tributos se tratan como delito contra el orden tributario. Por eso el despacho actúa en los dos frentes de forma coordinada.')],
 'tb_band_h':'¿Cuánto está pagando de más su empresa?','tb_band_p':'Análisis inicial del escenario fiscal de la empresa, confidencial y con una lectura objetiva de riesgos y oportunidades.','tb_band_b':'Agendar análisis del caso',
-'il_title':'Abogado Penalista para Extranjeros en Brasil — Lista de la Embajada de EE.UU. | JMB','il_desc':'Defensa penal de extranjeros en Brasil. Lista de abogados de la Embajada de EE.UU. Atención en español. Guardia 24h.',
+'il_title':'Abogado Penalista para Extranjeros en Brasil — Embajada de EE.UU. | JMB','il_desc':'Defensa penal de extranjeros en Brasil. Lista de abogados de la Embajada de EE.UU. Atención en español. Guardia 24h.',
 'il_eyebrow':'Práctica Internacional','il_h1':'Defensa penal de <em>extranjeros</em> en Brasil.','il_sub':'El despacho integra la lista de abogados de la Embajada de EE.UU. en Brasil y representa a ciudadanos extranjeros en casos penales en todo el país — en español, portugués e inglés.','il_cta':'Hablar con un abogado ahora',
 'il_how_eyebrow':'Cómo ayudamos','il_how_h2':'De la detención a la representación completa',
 'il_how_p1':'Desde 2016 el despacho representa a ciudadanos extranjeros en casos penales en Brasil — de la detención en flagrancia y la audiencia de custodia al jurado y los recursos ante los Tribunales Superiores en Brasilia.',
@@ -334,19 +335,32 @@ def news_card(t, lg, n):
 
 
 LANG_NAMES = {'pt': 'PT', 'en': 'EN', 'es': 'ES'}
+HREFLANG = {'pt': 'pt-BR', 'en': 'en', 'es': 'es'}
+OG_LOCALE = {'pt': 'pt_BR', 'en': 'en_US', 'es': 'es_ES'}
 
 
 def head(t, title, desc, fname, schema=False):
-    alts = ''.join('<link rel="alternate" hreflang="%s" href="%s/%s/%s">' % (lg, BASE, lg, fname) for lg in LANGS)
-    alts += '<link rel="alternate" hreflang="x-default" href="%s/en/%s">' % (BASE, fname)
+    # URLs limpas (o Vercel usa cleanUrls: /pt/index.html → /pt, /pt/criminal.html → /pt/criminal)
+    url = lambda lg: BASE + '/' + lg + ('' if fname == 'index.html' else '/' + fname[:-5])
+    alts = ''.join('<link rel="alternate" hreflang="%s" href="%s">' % (HREFLANG[lg], url(lg)) for lg in LANGS)
+    alts += '<link rel="alternate" hreflang="x-default" href="%s">' % url('en')
+    alts += '\n<link rel="canonical" href="%s">' % url(t['lang'])
+    og_img = BASE + '/assets/og.jpg'
+    alts += ('\n<meta property="og:type" content="website"><meta property="og:site_name" content="João Marcos A. Batista — Advocacia e Consultoria">'
+             '<meta property="og:locale" content="%s">' % OG_LOCALE[t['lang']]
+             + ''.join('<meta property="og:locale:alternate" content="%s">' % OG_LOCALE[lg] for lg in LANGS if lg != t['lang'])
+             + '<meta property="og:url" content="%s"><meta property="og:title" content="%s"><meta property="og:description" content="%s">' % (url(t['lang']), title, desc)
+             + '<meta property="og:image" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">' % og_img
+             + '<meta name="twitter:card" content="summary_large_image">')
     sch = ''
     if schema:
-        sch = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","name":"João Marcos A. Batista — Advocacia e Consultoria","url":"' + BASE + '","telephone":"+5511986213553","email":"joao@jmbadv.com.br","address":{"@type":"PostalAddress","streetAddress":"Rua Enxovia, 472, conj. 1504 e 1505 — Neo Corporate Offices, Brooklin","addressLocality":"São Paulo","addressRegion":"SP","postalCode":"04711-030","addressCountry":"BR"},"openingHours":"Mo-Su 00:00-24:00","founder":{"@type":"Person","name":"João Marcos A. Batista","jobTitle":"Advogado — OAB/SP 454.179"},"areaServed":"BR","knowsLanguage":["pt-BR","en","es"]}</script>\n')
+        sch = ('<script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","@id":"' + BASE + '/#escritorio","name":"João Marcos A. Batista — Advocacia e Consultoria","url":"' + BASE + '/' + t['lang'] + '","image":"' + BASE + '/assets/og.jpg","logo":"' + BASE + '/assets/monograma.png","sameAs":["https://www.instagram.com/adv.joaomarcosbatista"],"telephone":"+5511986213553","email":"joao@jmbadv.com.br","address":{"@type":"PostalAddress","streetAddress":"Rua Enxovia, 472, conj. 1504 e 1505 — Neo Corporate Offices, Brooklin","addressLocality":"São Paulo","addressRegion":"SP","postalCode":"04711-030","addressCountry":"BR"},"openingHours":"Mo-Su 00:00-24:00","founder":{"@type":"Person","name":"João Marcos A. Batista","jobTitle":"Advogado — OAB/SP 454.179"},"areaServed":"BR","knowsLanguage":["pt-BR","en","es"]}</script>\n')
     return ('<!DOCTYPE html>\n<html lang="' + t['html_lang'] + '">\n<head>\n<meta charset="UTF-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
             '<title>' + title + '</title>\n<meta name="description" content="' + desc + '">\n' + alts + '\n'
             '<meta name="theme-color" content="#232428">\n'
             '<link rel="icon" type="image/png" href="../assets/monograma.png">\n'
+            '<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">\n'
             '<script>(function(r){r.classList.add("js");setTimeout(function(){if(!r.classList.contains("motion"))r.classList.add("static")},3000)})(document.documentElement)</script>\n'
             '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
@@ -615,7 +629,21 @@ STUB_PAGES = {
  'equipe.html':('Equipe — João Marcos A. Batista',[('pt','Equipe'),('en','Team'),('es','Equipo')]),
  'noticias.html':('Notícias — João Marcos A. Batista',[('pt','Notícias'),('en','News'),('es','Noticias')]),
 }
+def sitemap():
+    url = lambda lg, f: BASE + '/' + lg + ('' if f == 'index.html' else '/' + f[:-5])
+    out = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for f, *_ in PAGES:
+        alts = ''.join('<xhtml:link rel="alternate" hreflang="%s" href="%s"/>' % (HREFLANG[l], url(l, f)) for l in LANGS)
+        alts += '<xhtml:link rel="alternate" hreflang="x-default" href="%s"/>' % url('en', f)
+        for lg in LANGS:
+            out.append('<url><loc>%s</loc><lastmod>%s</lastmod>%s</url>' % (url(lg, f), date.today().isoformat(), alts))
+    out.append('</urlset>')
+    return '\n'.join(out) + '\n'
+
+
 if __name__ == '__main__':
+    open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(sitemap())
+    open(os.path.join(OUT, 'robots.txt'), 'w', encoding='utf-8').write('User-agent: *\nAllow: /\n\nSitemap: ' + BASE + '/sitemap.xml\n')
     # raiz: detector de idioma + stubs de redirecionamento (bio.html e assets ficam como estão no repositório)
     open(os.path.join(OUT, 'index.html'), 'w', encoding='utf-8').write(DETECTOR)
     for fname, (title, links) in STUB_PAGES.items():
