@@ -405,7 +405,7 @@ def footer(t):
             '<li>' + ext('https://maps.google.com/?q=Rua+Enxovia+472+Brooklin+S%C3%A3o+Paulo', 'Rua Enxovia, 472 — Brooklin, SP') + '</li>'
             '<li>' + ext('https://www.instagram.com/adv.joaomarcosbatista', 'Instagram') + '</li></ul></div>'
             '</div><div class="ft-bottom"><p>© 2026 João Marcos A. Batista. ' + t['ft_rights'] + '<br>' + t['ft_legal'] + '</p>'
-            + ext('https://seryalab.com.br/advocacia', 'Site por Serya Lab', 'credit') + '</div></div></footer>\n')
+            + ext('https://seryalab.com.br/advocacia', '<span>Site por</span><img src="../assets/serya-lab.svg" alt="Serya Lab" width="78" height="16">', 'credit') + '</div></div></footer>\n')
 
 
 def eyebrow(s):

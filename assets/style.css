@@ -329,7 +329,9 @@ blockquote{margin-top:32px;padding-left:24px;border-left:1px solid var(--gold);f
 .ft li+li{margin-top:8px}
 .ft a:hover{color:var(--w)}
 .ft-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:72px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;line-height:1.7}
-.credit{white-space:nowrap;color:#6f7076}
+.credit{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;color:#6f7076;opacity:.75;transition:opacity .2s}
+.credit:hover{opacity:1}
+.credit img{display:block;height:16px;width:auto}
 @media(max-width:899px){.ft-grid{grid-template-columns:1fr}.ft-bottom{flex-direction:column;align-items:flex-start}}
 
 
