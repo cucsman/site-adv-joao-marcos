@@ -496,7 +496,7 @@ def body_index(t):
     tiles += '<figure class="tile t-team"><img src="../assets/joao-recepcao.jpg" alt="" loading="lazy"></figure>'
     creds = ''.join('<div class="cred" data-r><b>%s</b><span>%s</span></div>' % c for c in t['creds'])
     panels = ''
-    for i, (k, img, href) in enumerate([('crim', 'equipe-leonardo.jpg', 'criminal.html'), ('trib', 'joao-mesa.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
+    for i, (k, img, href) in enumerate([('crim', 'equipe-leonardo.jpg', 'criminal.html'), ('trib', 'joao-perfil-sala.jpg', 'tributario.html'), ('intl', 'escritorio-noite.jpg', 'internacional.html')]):
         panels += ('<article class="panel"><div class="panel-in">'
                    '<figure class="panel-ph"><img src="../assets/' + img + '" alt="' + t['ar_%s_h' % k] + '" loading="lazy"></figure>'
                    '<div class="panel-tx"><span class="num">0' + str(i + 1) + '</span><h3 class="d2">' + t['ar_%s_h' % k] + '</h3>'
@@ -568,9 +568,9 @@ def body_criminal(t):
 
 
 def body_tributario(t):
-    return (page_hero(t['tb_eyebrow'], t['tb_h1'], t['tb_sub'], (wa(t['wa_trib']), t['tb_cta']), 'joao-mesa.jpg')
+    return (page_hero(t['tb_eyebrow'], t['tb_h1'], t['tb_sub'], (wa(t['wa_trib']), t['tb_cta']), 'joao-reuniao.jpg')
             + split(eyebrow(t['tb_why_eyebrow']) + '<h2 class="d2" data-r>' + t['tb_why_h2'] + '</h2><p data-r>' + t['tb_why_p1'] + '</p><p data-r>' + t['tb_why_p2'] + '</p>',
-                    'joao-sobre.jpg', 'João Marcos A. Batista', rev=True)
+                    'joao-perfil-sala.jpg', 'João Marcos A. Batista', rev=True)
             + rows_block(t['tb_sv_eyebrow'], t['tb_sv_h2'], t['tb_cards'])
             + '<section class="sec dark"><div class="wrap narrow">' + eyebrow(t['po_eyebrow']) + '<h2 class="d1" data-words>' + t['tb_po_h2'] + '</h2>'
               '<p class="lead" data-r>' + t['tb_po_p1'] + '</p><p class="lead" data-r>' + t['tb_po_p2'] + '</p>'
