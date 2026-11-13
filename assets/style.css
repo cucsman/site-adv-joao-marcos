@@ -282,6 +282,10 @@ blockquote{margin-top:32px;padding-left:24px;border-left:1px solid var(--gold);f
 .phero .lead{color:#d4d3d0;font-weight:300}
 .phero-in{min-height:100vh;min-height:100svh;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,100px);align-items:center;padding-top:calc(var(--hd) + 48px);padding-bottom:72px}
 .phero-ph{max-height:78vh;justify-self:end;width:100%}
+/* topo seguido de seção também escura (Criminal → Urgências): sem buraco entre as duas */
+.phero:has(+ .sec.dark) .phero-in{min-height:0;padding-bottom:clamp(64px,7vw,104px)}
+.phero + .sec.dark{padding-top:0}
+.phero + .sec.dark > .wrap::before{content:'';display:block;height:1px;background:var(--line-d);margin-bottom:clamp(64px,7vw,104px)}
 .phero.solo{padding:calc(var(--hd) + clamp(96px,14vw,180px)) 0 clamp(96px,12vw,160px)}
 @media(max-width:899px){.phero-in{grid-template-columns:1fr;min-height:0}.phero-ph{order:0;max-height:none}}
 
