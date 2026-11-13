@@ -582,7 +582,7 @@ def body_tributario(t):
 def body_internacional(t):
     return (page_hero(t['il_eyebrow'], t['il_h1'], t['il_sub'], (wa(t['wa_intl']), t['il_cta']), 'joao-cidade.jpg', 'International criminal defense in Brazil')
             + split(eyebrow(t['il_how_eyebrow']) + '<h2 class="d2" data-r>' + t['il_how_h2'] + '</h2><p data-r>' + t['il_how_p1'] + '</p><p data-r>' + t['il_how_p2'] + '</p>'
-                    '<blockquote data-r>' + t['il_how_box'] + '</blockquote>', 'joao-colete.jpg', 'João Marcos A. Batista', rev=True)
+                    '<blockquote data-r>' + t['il_how_box'] + '</blockquote>', 'joao-atuacao.jpg', 'João Marcos A. Batista', rev=True)
             + rows_block(t['il_ar_eyebrow'], t['il_ar_h2'], t['il_cards'])
             + cta_band(t['il_band_h'], t['il_band_p'], t['il_band_b'], t['wa_intl']))
 
